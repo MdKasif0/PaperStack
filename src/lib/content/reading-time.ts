@@ -30,5 +30,8 @@ export function computeReadingTime(mdx: string): ReadingTime {
   const result = readingTime(stripMdxForReading(mdx), {
     wordsPerMinute: WORDS_PER_MINUTE,
   });
-  return { minutes: result.minutes, words: result.words };
+  return {
+    minutes: Math.max(Math.round(result.minutes), 1),
+    words: result.words,
+  };
 }
