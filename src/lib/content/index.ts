@@ -57,3 +57,5 @@ export {
 export { extractTableOfContents, type TocEntry } from "./toc";
 
 export { getAllTopics } from "./topics";
+
+export { getVolumeInfo, type VolumeInfo } from "./volume";

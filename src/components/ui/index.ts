@@ -28,6 +28,9 @@ export type { SectionLabelProps } from "./SectionLabel";
 export { Select } from "./Select";
 export type { SelectProps } from "./Select";
 
+export { Skeleton } from "./Skeleton";
+export type { SkeletonProps } from "./Skeleton";
+
 export { Tag } from "./Tag";
 export type { TagProps, TagTone } from "./Tag";
 
