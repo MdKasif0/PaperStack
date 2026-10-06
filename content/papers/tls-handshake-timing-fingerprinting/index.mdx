@@ -1,0 +1,106 @@
+---
+title: "Fingerprinting TLS Clients from Handshake Timing Alone"
+slug: "tls-handshake-timing-fingerprinting"
+abstract: "Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We show that the timing profile of a TLS handshake, collected passively at line rate, is enough to distinguish browser families with a 91 percent top-1 rate across 12 widely deployed clients. The signal survives TLS 1.3's encryption of most handshake fields, which makes timing a remaining, and largely unmitigated, fingerprinting surface."
+authors:
+  - slug: "placeholder-co-author"
+    corresponding: true
+  - slug: "md-kasif-uddin"
+publishedAt: 2026-05-21
+topics:
+  - "cybersecurity"
+keywords:
+  - "side channels"
+  - "TLS"
+  - "fingerprinting"
+  - "network measurement"
+type: "technical-report"
+status: "published"
+featured: false
+pdf: "/papers/tls-handshake-timing-fingerprinting/paper.pdf"
+links:
+  doi: "https://doi.org/10.0000/paperstack.ps-2026.002"
+  dataset: "https://github.com/MdKasif0/PaperStack"
+versions:
+  - version: "1.0.0"
+    date: 2026-05-21
+    note: "Initial publication."
+license: "CC BY 4.0"
+acknowledgements: "Sample acknowledgement — the vantage points used in this demonstration do not exist; the dataset is synthetic."
+sample: true
+---
+
+## Abstract
+
+Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We show that the timing profile of a TLS handshake, collected passively at line rate, is enough to distinguish browser families with a 91 percent top-1 rate across 12 widely deployed clients. The signal survives TLS 1.3's encryption of most handshake fields, which makes timing a remaining, and largely unmitigated, fingerprinting surface.
+
+## Introduction
+
+TLS encrypts handshake certificates and, since 1.3, most extension data. What it does not change is _when_ work happens: certificate parsing, key schedule computation, and extension processing each leave a timing residue that a passive observer with packet-level timestamps can still collect.
+
+Prior fingerprinting work concentrates on the plaintext ClientHello of TLS 1.2 and earlier. We ask whether the timing dimension alone carries enough signal to matter in a post-1.3 world.
+
+We make three contributions:
+
+- A passive measurement pipeline that extracts 14 timing features per handshake from one-sided packet captures.
+- An evaluation across 12 client implementations on three network conditions.
+- An analysis of which features carry signal after TLS 1.3, and why padding countermeasures miss most of them.
+
+## Method
+
+### Data collection
+
+We captured 48,000 handshakes over six weeks across three vantage points, balancing residential and datacenter paths. Each capture records only timestamps, directions, and sizes — no payload is retained.
+
+### Features
+
+For a handshake with inter-packet gaps $g_1, \dots, g_n$, the feature vector is
+
+$$
+\vec{f} = \left( \min_i g_i,\ \max_i g_i,\ \mathrm{med}_i\, g_i,\ \sigma_i\, g_i,\ \sum_i \mathbb{1}\!\left[g_i > \mu + 2\sigma\right],\ \dots \right)
+$$
+
+covering spread, skew, and outlier-gap counts in both directions.
+
+### Classifier
+
+A gradient-boosted tree classifier is trained per vantage point with client-family labels. Hyperparameters are fixed by a small grid search on a validation quarter of the data.
+
+```python
+features = [
+    "gap_min", "gap_max", "gap_median", "gap_std",
+    "outlier_count_up", "outlier_count_down",
+    "cert_parse_delta", "finished_delta",
+]
+model = GradientBoostedTrees(
+    n_estimators=400, max_depth=6, class_weight="balanced",
+)
+```
+
+## Results
+
+| Client family      | Handshakes | Top-1 | Top-3 | Median confidence |
+| ------------------ | ---------- | ----- | ----- | ----------------- |
+| Chromium-based     | 21,400     | 0.94  | 0.99  | 0.71              |
+| Gecko-based        | 9,100      | 0.89  | 0.97  | 0.63              |
+| WebKit-based       | 8,700      | 0.90  | 0.96  | 0.66              |
+| Command-line tools | 8,800      | 0.87  | 0.94  | 0.58              |
+
+Aggregated across families, top-1 accuracy is 0.91. Errors concentrate almost entirely inside families — telling two Chromium builds apart is harder than telling Chromium from Firefox — which is the privacy-relevant granularity for tracking.
+
+![Figure 2 — per-feature permutation importance](/papers/tls-handshake-timing-fingerprinting/figures/figure-2.svg)
+
+_Figure 2 — Placeholder. Final figure: permutation importance for the 14 timing features, split by TLS version._
+
+## Discussion
+
+Three results deserve emphasis. First, the certificate-parse delta — the gap between ServerHello and Certificate — is the single strongest feature, and TLS 1.3 neither encrypts nor pads the timing around it. Second, naive padding of the whole handshake removes under half the signal at a 9 percent throughput cost. Third, accuracy is stable across vantage points, so the attack does not require a privileged position on the client's path.
+
+The responsible disclosure summary is simple: we reported the finding to two client vendors, both of which confirmed the behaviour and none of which currently plans a timing mitigation. A practical defence likely needs jitter deliberately larger than the inter-feature gaps, and we sketch the cost bounds for that in the report.
+
+## References
+
+1. J. Amann et al., "Mission accomplished? HTTPS security after DigiNotar," in IMC, 2017.
+2. E. Rescorla, "The Transport Layer Security (TLS) Protocol Version 1.3," RFC 8446, 2018.
+3. Z. Durumeric et al., "A search engine backed by Internet-wide scanning," in CCS, 2015.
+4. B. Liu et al., "A reexamination of internationalized domain name vulnerabilities," in WWW, 2021.

@@ -1,0 +1,10 @@
+{
+  "slug": "placeholder-co-author",
+  "name": "Co-Author Placeholder",
+  "affiliation": "Placeholder Institution",
+  "role": "Placeholder — replace me",
+  "bio": "This is a placeholder author file that exists to prove multi-author papers work end to end. Replace it with a real collaborator's details, or delete it along with its author references in the sample papers.",
+  "links": {
+    "github": "https://github.com/MdKasif0"
+  }
+}

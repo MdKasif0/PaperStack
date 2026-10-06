@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "slug": "artificial-intelligence",
+    "name": "Artificial Intelligence",
+    "description": "Machine learning systems, their behaviour under compression and distribution shift, and the tools that make them measurable.",
+    "accent": "green"
+  },
+  {
+    "slug": "cybersecurity",
+    "name": "Cybersecurity",
+    "description": "Applied security research: side channels, protocol measurement, and the gap between specification and deployed behaviour.",
+    "accent": "terracotta"
+  },
+  {
+    "slug": "web-engineering",
+    "name": "Web Engineering",
+    "description": "How the modern web is actually built and how it actually performs — rendering strategies, build tooling, and runtime behaviour.",
+    "accent": "gold"
+  }
+]

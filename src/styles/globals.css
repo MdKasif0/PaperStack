@@ -1,21 +1,209 @@
 @import "tailwindcss";
 
 /*
- * Foundation only: a light, neutral base (no dark mode — the site is
- * light-theme by design). The paper-cream / ink-green / terracotta / gold
- * design tokens are introduced with the design step.
+ * PaperStack design tokens.
+ *
+ * Raw values live on :root as plain CSS variables; the single @theme block
+ * maps them into Tailwind (the Tailwind v4 equivalent of tailwind.config.ts),
+ * which generates utilities such as bg-paper, text-ink-soft, border-rule.
  */
+
 :root {
-  --background: #fdfcf9;
-  --foreground: #22302a;
+  /* Paper surfaces */
+  --paper: #f6f1e7;
+  --paper-raised: #fbf8f1;
+  --paper-sunk: #ede5d5;
+
+  /* Warm ink text colours — every neutral carries an olive cast, never blue */
+  --ink: #1e2620;
+  --ink-soft: #4a5249;
+  --ink-muted: #63665a; /* darkened from the proposed #77796b to hold AA on paper-sunk */
+
+  /* Hairline rules */
+  --rule: #d9cfbc;
+  --rule-strong: #bfb29a;
+
+  /* Ink green — primary accent */
+  --green-900: #14352a;
+  --green-700: #1f4d3a;
+  --green-600: #2b6350;
+  --green-100: #dde8df;
+  --green-50: #edf3ee;
+
+  /* Terracotta — secondary accent */
+  --terracotta-700: #8f4a31; /* added: AA-safe terracotta text on every paper surface */
+  --terracotta-600: #a85d3f; /* decorative use and large text only (4.3:1 on paper) */
+  --terracotta-100: #f1ddd2;
+
+  /* Soft gold — tertiary accent; decorative tones, never body text */
+  --gold-500: #be9b4e;
+  --gold-100: #f2e7c9;
+
+  /* Warm code colours for syntax highlighting — no blue anywhere */
+  --syntax-keyword: #8f4a31;
+  --syntax-string: #2b6350;
+  --syntax-number: #7a5a1a;
+  --syntax-function: #1f4d3a;
+  --syntax-comment: #63665a;
+  --syntax-punctuation: #4a5249;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  /* Colour tokens */
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-green-900: var(--green-900);
+  --color-green-700: var(--green-700);
+  --color-green-600: var(--green-600);
+  --color-green-100: var(--green-100);
+  --color-green-50: var(--green-50);
+  --color-terracotta-700: var(--terracotta-700);
+  --color-terracotta-600: var(--terracotta-600);
+  --color-terracotta-100: var(--terracotta-100);
+  --color-gold-500: var(--gold-500);
+  --color-gold-100: var(--gold-100);
+
+  /* Font families — the vars are exposed by next/font in app/layout.tsx */
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Fluid editorial type scale */
+  --text-display: clamp(2.75rem, 2.1rem + 3.2vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2.25rem, 1.8rem + 2.2vw, 3.25rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: clamp(1.75rem, 1.5rem + 1.2vw, 2.375rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+
+  --text-h4: clamp(1.125rem, 1.06rem + 0.3vw, 1.3125rem);
+  --text-h4--line-height: 1.35;
+
+  --text-body-lg: clamp(1.125rem, 1.08rem + 0.25vw, 1.25rem);
+  --text-body-lg--line-height: 1.75;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+
+  --text-label: 0.71875rem; /* 11.5px — editorial small caps */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.12em;
+
+  /* Restrained radii — 2–4px, nothing rounder */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  /* Layout */
+  --container-site: 73.75rem; /* 1180px */
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+@layer base {
+  :root {
+    accent-color: var(--green-700);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+  }
+
+  /* Warm selection: gold wash, ink text */
+  ::selection {
+    background-color: var(--gold-100);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--green-700);
+    outline-offset: 2px;
+  }
+
+  /* Editorial links: ink green with a thin terracotta underline that
+     thickens on hover. Utilities (e.g. `no-underline`) win over this. */
+  a {
+    color: var(--green-700);
+    text-decoration-line: underline;
+    text-decoration-color: var(--terracotta-600);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-skip-ink: auto;
+    transition:
+      color 150ms ease,
+      text-decoration-thickness 150ms ease;
+  }
+
+  a:hover {
+    color: var(--green-900);
+    text-decoration-thickness: 2px;
+  }
+
+  /* Subtle paper grain, CSS-only: 2.8% opacity, never interactive. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: 0.028;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media print {
+    body::after {
+      display: none;
+    }
+  }
+}
+
+@layer components {
+  /* Square checkbox box; the check glyph is an inline data-URI so no icon
+     font or JS is involved. Sizing comes from utilities on the element. */
+  .checkbox-box {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    background-color: var(--paper-raised);
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease;
+  }
+
+  .checkbox-box:checked {
+    border-color: var(--green-700);
+    background-color: var(--green-700);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23f6f1e7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E");
+    background-size: 12px 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .checkbox-box:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
 }

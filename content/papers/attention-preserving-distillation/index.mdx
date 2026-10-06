@@ -1,0 +1,105 @@
+---
+title: "Attention-Preserving Distillation for Compact Language Models"
+slug: "attention-preserving-distillation"
+abstract: "Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We ask whether preserving the attention geometry of a teacher transformer during knowledge distillation produces smaller models that stay calibrated under distribution shift. Across three compression ratios, attention-aligned students retain 96.4 percent of teacher accuracy with 31 percent fewer parameters than a token-level baseline, and degrade more gracefully on out-of-domain text."
+authors:
+  - slug: "md-kasif-uddin"
+    corresponding: true
+  - slug: "placeholder-co-author"
+publishedAt: 2026-02-10
+updatedAt: 2026-03-02
+topics:
+  - "artificial-intelligence"
+keywords:
+  - "knowledge distillation"
+  - "transformers"
+  - "model compression"
+  - "benchmarking"
+type: "research-paper"
+status: "published"
+featured: true
+pdf: "/papers/attention-preserving-distillation/paper.pdf"
+links:
+  doi: "https://doi.org/10.0000/paperstack.ps-2026.001"
+  github: "https://github.com/MdKasif0/PaperStack"
+versions:
+  - version: "1.0.0"
+    date: 2026-02-10
+    note: "Initial publication."
+  - version: "1.1.0"
+    date: 2026-03-02
+    note: "Added throughput benchmarks on consumer hardware."
+license: "CC BY 4.0"
+acknowledgements: "Sample acknowledgement — the compute for this demonstration was donated by no one, because the paper is synthetic."
+sample: true
+---
+
+## Abstract
+
+Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We ask whether preserving the attention geometry of a teacher transformer during knowledge distillation produces smaller models that stay calibrated under distribution shift. Across three compression ratios, attention-aligned students retain 96.4 percent of teacher accuracy with 31 percent fewer parameters than a token-level baseline, and degrade more gracefully on out-of-domain text.
+
+## Introduction
+
+Compact language models are attractive wherever inference must happen on constrained hardware, but standard distillation objectives treat the teacher's output distribution as the only source of supervision. Work on compression-induced drift suggests that the internal relational structure of transformers degrades faster than the output distribution alone can capture.
+
+This paper makes three contributions:
+
+- An attention-alignment loss that matches student attention entropy to teacher attention entropy at matched layer depths.
+- A controlled study across three compression ratios and two teacher architectures, with three seeds per configuration.
+- An open evaluation harness that reports variance alongside every headline number.
+
+## Method
+
+### Alignment objective
+
+Let $A^{(l)}$ denote the attention matrix at layer $l$ of a transformer. We minimise
+
+$$
+\mathcal{L} = \mathcal{L}_{\mathrm{task}} + \lambda \sum_{l \in \mathcal{M}} \mathrm{JSD}\!\left( A^{(l)}_{\mathrm{student}} \,\Vert\, A^{(l)}_{\mathrm{teacher}} \right)
+$$
+
+where $\mathcal{M}$ selects every third layer of the teacher and $\lambda = 0.15$ throughout. Jensen–Shannon divergence is used instead of KL because attention rows are often near-uniform early in training, which makes raw KL penalties explode.
+
+### Training configuration
+
+```python
+config = {
+    "teacher": "reference-base-110m",
+    "student_width": 0.5,
+    "alignment_layers": "every_third",
+    "lambda": 0.15,
+    "epochs": 6,
+    "seeds": [13, 29, 61],
+}
+```
+
+### Evaluation protocol
+
+We report token-level accuracy, expected calibration error (ECE), and parameter count. Out-of-domain robustness is measured on a held-out corpus that is structurally different from the training distribution — poetry and source code — without any fine-tuning.
+
+## Results
+
+| Compression | Student params | Accuracy | ECE | Accuracy delta vs. baseline |
+| ----------- | -------------- | -------- | --- | --------------------------- |
+| 0.75        | 82M            | 91.2%    | 2.1 | +0.4                        |
+| 0.50        | 55M            | 89.7%    | 2.4 | +0.9                        |
+| 0.35        | 38M            | 86.1%    | 3.0 | +1.6                        |
+
+Attention-aligned students lose less accuracy per parameter removed, and the gap widens as compression increases. On the out-of-domain split the aligned 0.50 student trails its teacher by 4.8 points where the token-level baseline trails by 9.3.
+
+![Figure 1 — attention entropy drift across aligned layers](/papers/attention-preserving-distillation/figures/figure-1.svg)
+
+_Figure 1 — Placeholder. Final figure: attention entropy drift between teacher and student at each aligned layer, with 95 percent bands over three seeds._
+
+## Discussion
+
+The alignment term helps most exactly where output-level matching is weakest: long-range dependencies and rare-token routing. Two limitations temper the result. First, alignment adds roughly 18 percent to distillation wall-clock time, which matters for practitioners distilling large teachers. Second, our teachers share a single architecture family with the students; cross-family transfer remains open.
+
+We consider the calibration result the more interesting half: smaller models fail quietly, and an objective that keeps failure loud is worth its training cost.
+
+## References
+
+1. A. Vaswani et al., "Attention is all you need," in Advances in Neural Information Processing Systems, 2017.
+2. G. Hinton, O. Vinyals, and J. Dean, "Distilling the knowledge in a neural network," arXiv:1503.02531, 2015.
+3. J. Gou et al., "Knowledge distillation: A survey," International Journal of Computer Vision, vol. 129, 2021.
+4. L. Ouyang et al., "Training language models to follow instructions with human feedback," in NeurIPS, 2022.

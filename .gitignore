@@ -42,3 +42,6 @@ next-env.d.ts
 
 # keep the example env file in the repo
 !.env.example
+
+# generated client search index
+public/search/index.json

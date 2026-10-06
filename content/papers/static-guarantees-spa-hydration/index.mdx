@@ -1,0 +1,99 @@
+---
+title: "Where Static Guarantees Expire: A Field Survey of Single-Page Framework Hydration"
+slug: "static-guarantees-spa-hydration"
+abstract: "Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We survey hydration behaviour across four single-page frameworks and three build tools, cataloguing where statically verified builds still produce client mismatches at runtime. In a 1,200-page corpus, 3.7 percent of routes hydration-mismatch on first load; we trace 82 percent of those to five recurring patterns, each of which has a lintable signature."
+authors:
+  - slug: "md-kasif-uddin"
+    corresponding: true
+publishedAt: 2026-08-03
+updatedAt: 2026-08-03
+topics:
+  - "web-engineering"
+keywords:
+  - "hydration"
+  - "static analysis"
+  - "single-page applications"
+  - "benchmarking"
+type: "preprint"
+status: "published"
+featured: false
+links:
+  doi: "https://doi.org/10.0000/paperstack.ps-2026.003"
+  github: "https://github.com/MdKasif0/PaperStack"
+versions:
+  - version: "1.0.0"
+    date: 2026-08-03
+    note: "Initial publication."
+license: "CC BY 4.0"
+sample: true
+---
+
+## Abstract
+
+Sample content — this demonstration paper exists to exercise the PaperStack pipeline and will be replaced by real research. We survey hydration behaviour across four single-page frameworks and three build tools, cataloguing where statically verified builds still produce client mismatches at runtime. In a 1,200-page corpus, 3.7 percent of routes hydration-mismatch on first load; we trace 82 percent of those to five recurring patterns, each of which has a lintable signature.
+
+## Introduction
+
+Hydration promises the best of both worlds: a fully rendered first paint from the server, then a live client application taking over. The contract is strict — client render output must match server markup — and frameworks enforce it with varying degrees of strictness at build time. What gets through is a class of bugs that is invisible to static checks, intermittent in production, and expensive to reproduce.
+
+This survey asks a narrow question: when a build passes, how often does hydration still fail, and why?
+
+- We instrument 1,200 routes across 48 open-source single-page applications.
+- We classify every observed mismatch into a failure taxonomy with five dominant patterns.
+- We show that each pattern has a static signature, and prototype a linter that catches all five.
+
+## Method
+
+### Corpus
+
+We select applications by star count and build reproducibility, then crawl each route twice: once for the server payload and once under instrumented hydration in a clean browser context.
+
+### Cost model
+
+For a route $r$, hydration cost decomposes as
+
+$$
+T_{\mathrm{hydrate}}(r) = T_{\mathrm{parse}} + T_{\mathrm{eval}} + \sum_{c \in C(r)} T_{\mathrm{attach}}(c)
+$$
+
+where $C(r)$ is the set of interactive components on the route. Mismatch repairs — client re-renders forced by a failed attach — multiply the attach term and dominate tail latency.
+
+### Instrumentation
+
+A patched scheduler records every attach, patch, and forced re-render with component boundaries intact.
+
+```javascript
+const observations = collectHydration(window, {
+  recordMismatches: true,
+  recordAttachTimings: true,
+  onMismatch: (entry) => report(entry.route, entry.node, entry.diffKind),
+});
+```
+
+## Results
+
+| Framework   | Routes | Mismatch rate | Dominant pattern           | Median repair cost |
+| ----------- | ------ | ------------- | -------------------------- | ------------------ |
+| Framework A | 420    | 4.1%          | Time-dependent render      | 118 ms             |
+| Framework B | 310    | 3.2%          | Locale-sensitive format    | 96 ms              |
+| Framework C | 260    | 4.6%          | Unstable list identity     | 142 ms             |
+| Framework D | 210    | 2.4%          | Extension-dependent markup | 74 ms              |
+
+Across the corpus, 3.7 percent of routes mismatch on first load. Five patterns account for 82 percent of failures: time-dependent rendering, locale-sensitive formatting, unstable list identity, browser-extension interference, and viewport-conditioned markup.
+
+![Figure 3 — mismatch rate by route depth](/papers/static-guarantees-spa-hydration/figures/figure-3.svg)
+
+_Figure 3 — Placeholder. Final figure: mismatch rate against route depth, with per-framework traces._
+
+## Discussion
+
+The uncomfortable finding is that none of the five patterns is exotic. Each is a routine construction that type checking happily accepts, because the static contract says nothing about wall-clock time, locale, or the user's extensions. The linter prototype flags 4 of 5 patterns with a false-positive rate under 2 percent on the corpus; extension-dependent markup remains open because it is indistinguishable from intentional user-agent branching.
+
+Two threats to validity are worth naming. The corpus over-represents popular applications, and our instrumentation attaches after load, so it cannot observe mismatches that crash hydration outright. We consider the second the more serious gap and describe an early-attach design in the appendix.
+
+## References
+
+1. M. O. Gideon et al., "Resumable applications: resuming execution instead of re-executing it," Qwik working notes, 2022.
+2. A. Russell, "Beyond the single-page application: modern transitions on the web," Chrome developer notes, 2022.
+3. P. Meunier et al., "Comparative performance of client-side rendering strategies," in W3C Workshop on Web Performance, 2023.
+4. WHATWG, "HTML Living Standard — DOM parsing and serialization," 2025.
