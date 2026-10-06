@@ -1,0 +1,11 @@
+# PaperStack on Netlify — Next.js (App Router).
+#
+# Per current Netlify docs (docs.netlify.com/frameworks/next-js/overview/),
+# the Next.js adapter (@netlify/plugin-nextjs, powered by OpenNext) is
+# provisioned automatically at build time and Netlify recommends NOT pinning
+# its version — so there is deliberately no [[plugins]] block here.
+# The Node.js version is pinned in .nvmrc.
+
+[build]
+  command = "npm run build"
+  publish = ".next"

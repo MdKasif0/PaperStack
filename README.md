@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PaperStack
 
-## Getting Started
+A journal-style research site for publishing papers on AI, cybersecurity, and
+the web. Built with Next.js (App Router), TypeScript, and Tailwind CSS,
+deployed on Netlify.
 
-First, run the development server:
+> Status: foundation (step 1 of 10) — routes, design system, and the content
+> pipeline land in later steps. Full documentation will be added in step 10.
+
+## Stack
+
+- **Framework:** Next.js (App Router) with TypeScript in strict mode
+- **Styling:** Tailwind CSS v4, light editorial theme
+- **Content:** MDX papers under `content/papers/` with gray-matter frontmatter,
+  rendered with next-mdx-remote (RSC); GFM, KaTeX math, Shiki code highlighting
+- **Search:** MiniSearch
+- **Hosting:** Netlify — Next.js adapter (auto-provisioned), Netlify Blobs for
+  any dynamic storage needs
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then set NEXT_PUBLIC_SITE_URL
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command                | Description                            |
+| ---------------------- | -------------------------------------- |
+| `npm run dev`          | Start the development server           |
+| `npm run build`        | Production build                       |
+| `npm run start`        | Serve the production build             |
+| `npm run lint`         | ESLint                                 |
+| `npm run typecheck`    | TypeScript with no emit                |
+| `npm run format`       | Prettier (with Tailwind class sorting) |
+| `npm run format:check` | Prettier check only                    |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Content layout
 
-## Learn More
+- `content/papers/<slug>/index.mdx` — one folder per paper; an optional
+  `paper.pdf` alongside it is served from `public/papers/`
+- `content/authors/<id>.json` — one file per author
+- `content/topics/topics.json` — topic taxonomy
 
-To learn more about Next.js, take a look at the following resources:
+## Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.env.example`. Note that Netlify Blobs needs **no credentials** when the
+app runs on Netlify (or via `netlify dev`) — the platform injects them.
