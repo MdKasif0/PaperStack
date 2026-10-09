@@ -6,14 +6,21 @@ import { cn } from "@/lib/utils";
 
 import { MobileNav } from "./MobileNav";
 import { NavLinks } from "./NavLinks";
-import { SearchDialog, type SearchItem } from "./SearchDialog";
+import { SearchDialog } from "./SearchDialog";
+import type { PaletteAuthor, PaletteTopic } from "./SearchDialog";
 import { Wordmark } from "./Wordmark";
 
 /**
  * The sticky masthead. Its hairline border appears only after scrolling —
  * no blur, no background shift, just a rule.
  */
-export function Masthead({ searchItems }: { searchItems: SearchItem[] }) {
+export function Masthead({
+  authors,
+  topics,
+}: {
+  authors: PaletteAuthor[];
+  topics: PaletteTopic[];
+}) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -36,7 +43,7 @@ export function Masthead({ searchItems }: { searchItems: SearchItem[] }) {
         <Wordmark />
         <div className="flex items-center gap-6">
           <NavLinks className="hidden md:block" />
-          <SearchDialog items={searchItems} />
+          <SearchDialog authors={authors} topics={topics} />
           <MobileNav />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { getAllPapers, getVolumeInfo } from "@/lib/content";
+import { getAllAuthors, getAllTopics, getVolumeInfo } from "@/lib/content";
 
 import { Masthead } from "./Masthead";
 
@@ -8,15 +8,11 @@ import { Masthead } from "./Masthead";
  * away; the masthead beneath it sticks.
  */
 export async function Header() {
-  const [papers, { volume, year }] = await Promise.all([
-    getAllPapers(),
+  const [{ volume, year }, authors, topics] = await Promise.all([
     getVolumeInfo(),
+    getAllAuthors(),
+    getAllTopics(),
   ]);
-  const searchItems = papers.slice(0, 5).map((paper) => ({
-    slug: paper.slug,
-    title: paper.title,
-    paperId: paper.paperId,
-  }));
 
   return (
     <>
@@ -30,7 +26,16 @@ export async function Header() {
           </p>
         </div>
       </div>
-      <Masthead searchItems={searchItems} />
+      <Masthead
+        authors={authors.map((author) => ({
+          slug: author.slug,
+          name: author.name,
+        }))}
+        topics={topics.map((topic) => ({
+          slug: topic.slug,
+          name: topic.name,
+        }))}
+      />
     </>
   );
 }
