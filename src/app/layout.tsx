@@ -4,6 +4,7 @@ import { Hanken_Grotesk, IBM_Plex_Mono, Newsreader } from "next/font/google";
 
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
+import { siteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
 const newsreader = Newsreader({
@@ -27,7 +28,7 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = siteUrl();
 const SITE_DESCRIPTION =
   "An open journal of independent research — papers on AI, cybersecurity, and web engineering.";
 
@@ -38,6 +39,7 @@ export const metadata: Metadata = {
     template: "%s — PaperStack",
   },
   description: SITE_DESCRIPTION,
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     type: "website",
     siteName: "PaperStack",

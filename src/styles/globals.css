@@ -476,7 +476,7 @@
     transition: background-size 220ms ease-out;
   }
 
-  a:hover > .link-rule,
+  a:hover .link-rule,
   a:focus-visible > .link-rule {
     background-size: 100% 1px;
   }
@@ -570,6 +570,139 @@
 
   .meta-line > .tabular-nums {
     white-space: nowrap;
+  }
+
+  .paper-entry {
+    transition:
+      background-color 200ms ease-out,
+      border-color 200ms ease-out;
+  }
+
+  .paper-entry:hover {
+    border-color: var(--rule-strong);
+  }
+
+  .paper-entry-title {
+    font-size: clamp(1.4375rem, 1.2rem + 1.1vw, 2.0625rem);
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+  }
+
+  .paper-entry-title .link-rule {
+    padding-bottom: 0.06em;
+  }
+
+  .paper-entry:hover .link-rule {
+    background-size: 100% 1px;
+  }
+
+  .paper-entry-arrow {
+    opacity: 0.55;
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  .paper-entry:hover .paper-entry-arrow,
+  .paper-entry:focus-within .paper-entry-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .paper-entry,
+    .paper-entry-arrow {
+      transition: none;
+    }
+
+    .paper-entry:hover .paper-entry-arrow,
+    .paper-entry:focus-within .paper-entry-arrow {
+      transform: none;
+    }
+  }
+
+  .stat-value {
+    font-size: clamp(2.375rem, 2rem + 1.2vw, 2.875rem);
+    line-height: 1;
+  }
+
+  .stat-cell {
+    position: relative;
+    transition: background-color 200ms ease-out;
+  }
+
+  .stat-cell::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    background-color: var(--green-700);
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  .stat-cell:hover {
+    background-color: var(--paper-sunk);
+  }
+
+  .stat-cell:hover::after {
+    opacity: 1;
+  }
+
+  .stat-cell:nth-child(even) {
+    border-left: 1px solid var(--rule);
+  }
+
+  .stat-cell:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 48rem) {
+    .stat-cell:nth-child(n + 2) {
+      border-left: 1px solid var(--rule);
+    }
+
+    .stat-cell:nth-child(n + 3) {
+      border-top: 0;
+    }
+  }
+
+  .arrow-forward {
+    transition: transform 180ms ease-out;
+  }
+
+  .group\/cta:hover .arrow-forward {
+    transform: translateX(3px);
+  }
+
+  /* One-time entrance, set off by components/site/Reveal.tsx. Content is
+     never hidden without scripting, when printing, or with reduced motion. */
+  @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .reveal.is-in {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 300ms ease-out,
+        transform 300ms ease-out;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-cell,
+    .stat-cell::after,
+    .arrow-forward {
+      transition: none;
+    }
+
+    .group\/cta:hover .arrow-forward {
+      transform: none;
+    }
   }
 
   /* Byline separators are drawn, not written, so the copy stays untouched. */

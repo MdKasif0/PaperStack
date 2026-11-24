@@ -11,7 +11,7 @@ import type { PaletteAuthor, PaletteTopic } from "./SearchDialog";
 import { Wordmark } from "./Wordmark";
 
 /**
- * The sticky masthead. Its hairline border appears only after scrolling —
+ * The sticky masthead. Its hairline border deepens after scrolling —
  * no blur, no background shift, just a rule.
  */
 export function Masthead({
@@ -36,7 +36,7 @@ export function Masthead({
     <header
       className={cn(
         "paper-grain sticky top-0 z-40 bg-paper transition-[border-color] duration-150 motion-reduce:transition-none",
-        scrolled ? "border-b border-rule" : "border-b border-transparent",
+        scrolled ? "border-b border-rule-strong/60" : "border-b border-rule",
       )}
     >
       <div className="mx-auto flex h-18 w-full max-w-site items-center justify-between gap-6 px-5 sm:px-8">

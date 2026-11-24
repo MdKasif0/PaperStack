@@ -57,7 +57,7 @@ export function NavLinks({
                     : cn(
                         "inline-flex py-2 text-[0.9375rem]",
                         active
-                          ? "font-medium text-terracotta-700 hover:text-terracotta-700"
+                          ? "font-medium text-green-700"
                           : "text-ink hover:text-green-900",
                       ),
                 )}
