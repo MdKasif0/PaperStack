@@ -7,7 +7,11 @@ import { NewsletterForm } from "./NewsletterForm";
 /** Two ways to follow the journal: the feed, and the digest. */
 export function StayUpdated() {
   return (
-    <section aria-labelledby="stay-updated">
+    <section
+      id="updates"
+      aria-labelledby="stay-updated"
+      className="scroll-mt-28"
+    >
       <SectionLabel
         index="05"
         title="Stay updated"

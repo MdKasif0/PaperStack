@@ -265,10 +265,6 @@
     background-color: var(--paper-sunk);
   }
 
-  .site-footer :focus-visible {
-    outline-color: var(--paper);
-  }
-
   /* ---- Paper reader ---- */
   .paper-body {
     --shiki-foreground: var(--ink);
