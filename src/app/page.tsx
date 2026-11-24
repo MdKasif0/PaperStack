@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Rss } from "lucide-react";
 
 import { Hero } from "@/components/home/Hero";
+import { PaperList } from "@/components/papers/PaperList";
 import { Button, Container, Input, SectionLabel } from "@/components/ui";
 import { getAllAuthors, getAllPapers, getAllTopics } from "@/lib/content";
 
@@ -10,10 +11,6 @@ export const metadata: Metadata = {
   description:
     "An open journal of independent research — careful papers on AI, cybersecurity, and web engineering, published with their data and their revision history.",
 };
-
-function isoDate(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
 
 const textLinkClasses =
   "inline-flex items-center gap-1.5 font-medium text-green-700 underline decoration-green-700/45 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2";
@@ -61,7 +58,7 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------------- */}
       {/* 01 — Latest papers                                          */}
-      <div className="mt-16 sm:mt-20">
+      <div className="mt-20 sm:mt-28">
         <section aria-labelledby="latest-papers">
           <SectionLabel
             index="01"
@@ -70,50 +67,11 @@ export default async function HomePage() {
             id="latest-papers"
           />
           {latest.length > 0 ? (
-            <ul className="mt-2 list-none divide-y divide-rule p-0">
-              {latest.map((paper) => (
-                <li
-                  key={paper.slug}
-                  className="paper-row group grid gap-x-8 gap-y-3 py-8 sm:grid-cols-[1fr_8rem]"
-                >
-                  <div>
-                    <h3 className="font-serif text-h3 text-balance text-ink">
-                      <Link
-                        href={`/papers/${paper.slug}`}
-                        className="text-ink no-underline transition-colors group-hover:text-green-700 after:absolute after:inset-0"
-                      >
-                        {paper.title}
-                      </Link>
-                    </h3>
-                    <p className="meta-line mt-2 text-meta text-ink-muted">
-                      <span>
-                        {paper.authors
-                          .map(
-                            (author) =>
-                              authorNames.get(author.slug) ?? author.slug,
-                          )
-                          .join(", ")}
-                      </span>
-                      <span className="tabular-nums">
-                        {isoDate(paper.publishedAt)}
-                      </span>
-                      {paper.topics.map((slug) => {
-                        const topic = topicBySlug.get(slug);
-                        return topic ? (
-                          <span key={slug}>{topic.name}</span>
-                        ) : null;
-                      })}
-                    </p>
-                    <p className="mt-4 line-clamp-3 max-w-[66ch] font-serif text-abstract text-ink-soft">
-                      {paper.abstract}
-                    </p>
-                  </div>
-                  <p className="font-mono text-meta text-ink-muted tabular-nums sm:pt-1.5 sm:text-right">
-                    {paper.paperId}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <PaperList
+              papers={latest}
+              authorNames={authorNames}
+              topics={topicBySlug}
+            />
           ) : (
             <div className="mt-10 max-w-prose">
               <p className="font-serif text-h3 text-ink-soft">
@@ -129,7 +87,7 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------------- */}
       {/* 02 — Browse by topic                                        */}
-      <div className="mt-16 sm:mt-20">
+      <div className="mt-20 sm:mt-28">
         <section aria-labelledby="browse-by-topic">
           <SectionLabel
             index="02"
@@ -137,14 +95,14 @@ export default async function HomePage() {
             titleAs="h2"
             id="browse-by-topic"
           />
-          <ul className="mt-2 list-none divide-y divide-rule p-0">
+          <ul className="mt-6 grid list-none divide-y divide-rule border-y border-rule p-0 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
             {topicCounts.map(({ topic, count }) => (
               <li
                 key={topic.slug}
-                className="paper-row group grid gap-x-8 gap-y-2 py-7 sm:grid-cols-[1fr_auto] sm:items-baseline"
+                className="topic-cell group relative flex flex-col justify-between gap-8 py-8 lg:px-8 lg:py-10 lg:first:pl-0 lg:last:pr-0"
               >
                 <div>
-                  <h3 className="font-serif text-h2 text-ink">
+                  <h3 className="font-serif text-h3 text-ink">
                     <Link
                       href={`/topics/${topic.slug}`}
                       className="text-ink no-underline transition-colors group-hover:text-green-700 after:absolute after:inset-0"
@@ -152,11 +110,11 @@ export default async function HomePage() {
                       {topic.name}
                     </Link>
                   </h3>
-                  <p className="mt-2 max-w-prose text-body text-ink-soft">
+                  <p className="mt-3 max-w-prose text-body text-ink-soft">
                     {topic.description}
                   </p>
                 </div>
-                <p className="font-mono text-small text-ink-muted tabular-nums sm:text-right">
+                <p className="font-mono text-meta text-ink-muted tabular-nums">
                   {count} {count === 1 ? "paper" : "papers"}
                 </p>
               </li>
@@ -167,7 +125,7 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------------- */}
       {/* 03 — The collection in numbers                              */}
-      <div className="mt-16 sm:mt-20">
+      <div className="mt-20 sm:mt-28">
         <section aria-labelledby="in-numbers">
           <SectionLabel
             index="03"
@@ -175,10 +133,13 @@ export default async function HomePage() {
             titleAs="h2"
             id="in-numbers"
           />
-          <div className="mt-8 grid grid-cols-2 gap-px border-y border-rule bg-rule lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-10 lg:grid-cols-4">
             {figures.map((figure) => (
-              <div key={figure.label} className="bg-paper px-5 py-7 sm:px-8">
-                <p className="font-serif text-h2 text-ink tabular-nums">
+              <div
+                key={figure.label}
+                className="border-l border-rule-strong/50 pl-5"
+              >
+                <p className="font-serif text-display text-ink tabular-nums">
                   {figure.value}
                 </p>
                 <p className="mt-2 text-label text-ink-muted uppercase">
@@ -192,20 +153,20 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------------- */}
       {/* 04 — Authors                                                */}
-      <div className="mt-16 sm:mt-20">
+      <div className="mt-20 sm:mt-28">
         <section aria-labelledby="authors">
           <SectionLabel index="04" title="Authors" titleAs="h2" id="authors" />
-          <ul className="mt-10 flex list-none flex-wrap gap-x-14 gap-y-8 p-0">
+          <ul className="mt-6 grid list-none gap-x-16 border-t border-rule p-0 md:grid-cols-2">
             {authors.map((author) => (
-              <li key={author.slug}>
+              <li key={author.slug} className="border-b border-rule">
                 <Link
                   href={`/authors/${author.slug}`}
-                  className="group block no-underline"
+                  className="group block py-7 no-underline"
                 >
-                  <span className="text-body font-medium text-ink underline-offset-4 transition-colors group-hover:text-green-900 group-hover:underline group-hover:decoration-green-700/45">
+                  <span className="font-serif text-h3 text-ink transition-colors group-hover:text-green-700">
                     {author.name}
                   </span>
-                  <span className="mt-1 block max-w-56 text-small text-ink-muted">
+                  <span className="mt-1.5 block text-small text-ink-muted">
                     {author.affiliation}
                   </span>
                 </Link>
@@ -217,7 +178,7 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------------- */}
       {/* 05 — Stay updated                                           */}
-      <div className="mt-16 sm:mt-20">
+      <div className="mt-20 sm:mt-28">
         <section aria-labelledby="stay-updated">
           <SectionLabel
             index="05"
@@ -225,7 +186,7 @@ export default async function HomePage() {
             titleAs="h2"
             id="stay-updated"
           />
-          <div className="mt-10 grid gap-12 lg:grid-cols-2">
+          <div className="mt-8 grid gap-x-16 gap-y-12 rounded-md border border-rule bg-paper-sunk p-6 sm:p-10 lg:grid-cols-2">
             <div>
               <p className="max-w-prose text-body-lg text-ink-soft">
                 Occasional digests of new papers and revised versions — no

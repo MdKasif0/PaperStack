@@ -316,9 +316,11 @@ export function LibraryClient({
   );
 
   return (
-    <div className="mt-12 grid gap-12 lg:grid-cols-[17rem_1fr] lg:gap-16">
+    <div className="mt-10 grid gap-12 lg:grid-cols-[16rem_1fr] lg:gap-16">
       <aside className="hidden lg:block">
-        <div className="sticky top-24">{filterControls("rail")}</div>
+        <div className="sticky top-24 -mx-2 max-h-[calc(100vh-7rem)] overflow-y-auto px-2 pb-4">
+          {filterControls("rail")}
+        </div>
       </aside>
 
       <div>

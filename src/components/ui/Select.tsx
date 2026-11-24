@@ -40,7 +40,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             aria-describedby={describedBy}
             aria-invalid={error ? true : undefined}
             className={cn(
-              "h-10 w-full appearance-none rounded-sm border border-rule-strong bg-paper-raised pr-9 pl-3 text-body text-ink transition-colors hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700",
+              "h-11 w-full appearance-none rounded-sm border border-rule-strong bg-paper-raised pr-9 pl-3 text-body text-ink transition-colors hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700",
               error && "border-terracotta-700",
               className,
             )}

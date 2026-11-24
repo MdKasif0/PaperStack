@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { Container, SectionLabel } from "@/components/ui";
+import { PageHeader } from "@/components/site/PageHeader";
+import { Container } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "About",
@@ -10,15 +11,15 @@ export const metadata: Metadata = {
 // Stub — the full about page arrives in a later step.
 export default function AboutPage() {
   return (
-    <Container width="site" className="py-16 sm:py-24">
-      <SectionLabel index="00" title="Colophon" />
-      <h1 className="mt-6 font-serif text-h1 text-ink">About</h1>
-      <p className="mt-6 max-w-prose text-body-lg text-ink-soft">
-        PaperStack is an open journal of independent research: one writer, a
-        small circle of collaborators, and papers published with their data,
-        their proofs, and their revision history. The full colophon arrives in a
-        later step.
-      </p>
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <PageHeader label="Colophon" title="About">
+        <p>
+          PaperStack is an open journal of independent research: one writer, a
+          small circle of collaborators, and papers published with their data,
+          their proofs, and their revision history. The full colophon arrives in
+          a later step.
+        </p>
+      </PageHeader>
     </Container>
   );
 }

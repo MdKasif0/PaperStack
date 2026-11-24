@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { Container, SectionLabel } from "@/components/ui";
+import { PageHeader } from "@/components/site/PageHeader";
+import { Container } from "@/components/ui";
 import { getAllAuthors } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,21 +15,20 @@ export default async function AuthorsPage() {
   const authors = await getAllAuthors();
 
   return (
-    <Container width="site" className="py-16 sm:py-24">
-      <SectionLabel index="00" title="Masthead" />
-      <h1 className="mt-6 font-serif text-h1 text-ink">Authors</h1>
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <PageHeader label="Masthead" title="Authors" />
 
-      <ul className="mt-12 flex max-w-3xl list-none flex-col divide-y divide-rule p-0">
+      <ul className="list-none divide-y divide-rule p-0">
         {authors.map((author) => (
-          <li key={author.slug} className="py-6 first:pt-0">
+          <li key={author.slug} className="paper-row group">
             <Link
               href={`/authors/${author.slug}`}
-              className="group block no-underline"
+              className="grid gap-x-16 gap-y-2 py-9 no-underline lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-baseline"
             >
-              <h2 className="font-serif text-h3 text-ink transition-colors group-hover:text-green-900">
+              <h2 className="font-serif text-h2 text-ink transition-colors group-hover:text-green-700">
                 {author.name}
               </h2>
-              <p className="mt-1 text-small text-ink-muted">
+              <p className="text-body text-ink-soft">
                 {author.role} · {author.affiliation}
               </p>
             </Link>

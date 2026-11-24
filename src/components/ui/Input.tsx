@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         aria-describedby={describedBy}
         aria-invalid={error ? true : undefined}
         className={cn(
-          "h-10 w-full rounded-sm border border-rule-strong bg-paper-raised px-3 text-body text-ink transition-colors placeholder:text-ink-muted hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700",
+          "h-11 w-full rounded-sm border border-rule-strong bg-paper-raised px-3 text-body text-ink transition-colors placeholder:text-ink-muted hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700",
           error && "border-terracotta-700",
           className,
         )}

@@ -21,7 +21,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 const sizeClasses: Record<ButtonSize, string> = {
   sm: "h-8 px-3 text-small",
-  md: "h-10 px-5 text-body",
+  md: "h-11 px-5 text-body",
 };
 
 export interface ButtonProps

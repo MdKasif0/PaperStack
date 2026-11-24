@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Container, SectionLabel } from "@/components/ui";
-import { getAllAuthors, getAuthor, getPapersByAuthor } from "@/lib/content";
+import { PaperList } from "@/components/papers/PaperList";
+import { PageHeader } from "@/components/site/PageHeader";
+import { Container } from "@/components/ui";
+import {
+  getAllAuthors,
+  getAllTopics,
+  getAuthor,
+  getPapersByAuthor,
+} from "@/lib/content";
+
+const LINK_LABELS = {
+  website: "Website",
+  orcid: "ORCID",
+  googleScholar: "Google Scholar",
+  github: "GitHub",
+  x: "X",
+} as const;
 
 interface AuthorPageProps {
   params: Promise<{ slug: string }>;
@@ -18,31 +33,65 @@ export async function generateMetadata({
 }: AuthorPageProps): Promise<Metadata> {
   const { slug } = await params;
   const author = await getAuthor(slug);
-  return { title: author?.name ?? "Author" };
+  return { title: author?.name ?? "Author", description: author?.bio };
 }
 
-// Stub — full author pages arrive in a later step.
 export default async function AuthorPage({ params }: AuthorPageProps) {
   const { slug } = await params;
   const author = await getAuthor(slug);
   if (!author) notFound();
 
-  const papers = await getPapersByAuthor(author.slug);
+  const [papers, authors, topics] = await Promise.all([
+    getPapersByAuthor(author.slug),
+    getAllAuthors(),
+    getAllTopics(),
+  ]);
+  const authorNames = new Map(authors.map((entry) => [entry.slug, entry.name]));
+  const topicBySlug = new Map(topics.map((topic) => [topic.slug, topic]));
+  const links = (
+    Object.keys(LINK_LABELS) as (keyof typeof LINK_LABELS)[]
+  ).flatMap((key) => {
+    const href = author.links?.[key];
+    return href ? [{ href, label: LINK_LABELS[key] }] : [];
+  });
 
   return (
-    <Container width="site" className="py-16 sm:py-24">
-      <SectionLabel index="00" title="Author" />
-      <h1 className="mt-6 font-serif text-h1 text-ink">{author.name}</h1>
-      <p className="mt-3 text-small text-ink-muted">
-        {author.role} · {author.affiliation}
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <PageHeader
+        label="Author"
+        title={author.name}
+        meta={
+          <>
+            {author.role} · {author.affiliation}
+          </>
+        }
+      >
+        <p>{author.bio}</p>
+        {links.length > 0 && (
+          <ul className="mt-5 mb-0 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-small">
+            {links.map((link) => (
+              <li key={link.label}>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </PageHeader>
+      <p className="mt-8 text-small text-ink-muted">
+        {papers.length} {papers.length === 1 ? "paper" : "papers"}
       </p>
-      <p className="mt-6 max-w-prose text-body-lg text-ink-soft">
-        {author.bio}
-      </p>
-      <p className="mt-6 text-small text-ink-muted">
-        {papers.length} paper{papers.length === 1 ? "" : "s"} — the full author
-        page arrives in a later step.
-      </p>
+      {papers.length > 0 ? (
+        <PaperList
+          papers={papers}
+          authorNames={authorNames}
+          topics={topicBySlug}
+          titleAs="h2"
+        />
+      ) : (
+        <p className="mt-10 font-serif text-h3 text-ink-soft">
+          The first paper is in preparation.
+        </p>
+      )}
     </Container>
   );
 }

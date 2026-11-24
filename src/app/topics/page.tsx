@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { Container, SectionLabel } from "@/components/ui";
+import { PageHeader } from "@/components/site/PageHeader";
+import { Container } from "@/components/ui";
 import { getAllTopics } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,21 +15,20 @@ export default async function TopicsPage() {
   const topics = await getAllTopics();
 
   return (
-    <Container width="site" className="py-16 sm:py-24">
-      <SectionLabel index="00" title="Subjects" />
-      <h1 className="mt-6 font-serif text-h1 text-ink">Topics</h1>
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <PageHeader label="Subjects" title="Topics" />
 
-      <ul className="mt-12 flex max-w-3xl list-none flex-col divide-y divide-rule p-0">
+      <ul className="list-none divide-y divide-rule p-0">
         {topics.map((topic) => (
-          <li key={topic.slug} className="py-6 first:pt-0">
+          <li key={topic.slug} className="paper-row group">
             <Link
               href={`/topics/${topic.slug}`}
-              className="group block no-underline"
+              className="grid gap-x-16 gap-y-2 py-9 no-underline lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-baseline"
             >
-              <h2 className="flex items-center gap-3 font-serif text-h3 text-ink transition-colors group-hover:text-green-900">
+              <h2 className="flex items-center gap-3 font-serif text-h2 text-ink transition-colors group-hover:text-green-700">
                 {topic.name}
               </h2>
-              <p className="mt-2 max-w-prose text-body text-ink-soft">
+              <p className="max-w-prose text-body text-ink-soft">
                 {topic.description}
               </p>
             </Link>

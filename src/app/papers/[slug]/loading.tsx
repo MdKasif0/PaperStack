@@ -2,12 +2,8 @@ import { Container, Skeleton } from "@/components/ui";
 
 export default function Loading() {
   return (
-    <Container width="site" className="py-16 sm:py-24">
-      <div
-        role="status"
-        aria-label="Loading paper"
-        className="mx-auto max-w-[68ch]"
-      >
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <div role="status" aria-label="Loading paper" className="max-w-[46rem]">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="mt-4 h-12 w-full max-w-xl" />
         <Skeleton className="mt-4 h-4 w-56" />

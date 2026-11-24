@@ -85,7 +85,7 @@ export function FilterControls({
   );
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <div>
         <label
           htmlFor={searchId}
@@ -109,9 +109,11 @@ export function FilterControls({
         </div>
       </div>
 
-      <fieldset>
-        <legend className="text-label text-ink-muted uppercase">Topic</legend>
-        <div className="mt-1.5 flex flex-col">
+      <fieldset className="border-t border-rule pt-5">
+        <legend className="float-left w-full text-label text-ink-soft uppercase">
+          Topic
+        </legend>
+        <div className="clear-both flex flex-col pt-2">
           {topics.map((topic) => (
             <Checkbox
               key={topic.slug}
@@ -123,9 +125,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="text-label text-ink-muted uppercase">Year</legend>
-        <div className="mt-1.5 flex flex-col">
+      <fieldset className="border-t border-rule pt-5">
+        <legend className="float-left w-full text-label text-ink-soft uppercase">
+          Year
+        </legend>
+        <div className="clear-both flex flex-col pt-2">
           {years.map((year) => (
             <Checkbox
               key={year}
@@ -137,9 +141,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="text-label text-ink-muted uppercase">Author</legend>
-        <div className="mt-1.5 flex flex-col">
+      <fieldset className="border-t border-rule pt-5">
+        <legend className="float-left w-full text-label text-ink-soft uppercase">
+          Author
+        </legend>
+        <div className="clear-both flex flex-col pt-2">
           {authors.map((author) => (
             <Checkbox
               key={author.slug}
@@ -151,9 +157,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="text-label text-ink-muted uppercase">Type</legend>
-        <div className="mt-1.5 flex flex-col">
+      <fieldset className="border-t border-rule pt-5">
+        <legend className="float-left w-full text-label text-ink-soft uppercase">
+          Type
+        </legend>
+        <div className="clear-both flex flex-col pt-2">
           {PAPER_TYPE_OPTIONS.map((option) => (
             <Checkbox
               key={option.value}
@@ -165,9 +173,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="text-label text-ink-muted uppercase">Keyword</legend>
-        <div className="mt-3">
+      <fieldset className="border-t border-rule pt-5">
+        <legend className="float-left w-full text-label text-ink-soft uppercase">
+          Keyword
+        </legend>
+        <div className="clear-both pt-3">
           <label htmlFor={keywordSearchId} className="sr-only">
             Filter keyword list
           </label>

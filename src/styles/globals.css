@@ -79,8 +79,8 @@
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.02em;
 
-  --text-h1: clamp(2.25rem, 1.8rem + 2.2vw, 3.25rem);
-  --text-h1--line-height: 1.1;
+  --text-h1: clamp(2.375rem, 1.7rem + 2.8vw, 3.75rem);
+  --text-h1--line-height: 1.06;
   --text-h1--letter-spacing: -0.015em;
 
   --text-h2: clamp(1.75rem, 1.5rem + 1.2vw, 2.375rem);
@@ -143,7 +143,7 @@
      sticky masthead carries it too, so no seam shows against the page. */
   body,
   .paper-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.22 0.1 0 0 0 -0.04'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.22 0.07 0 0 0 -0.028'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   @media print {
@@ -256,6 +256,216 @@
     }
   }
 
+  .topic-cell {
+    transition: background-color 150ms ease-out;
+  }
+
+  .topic-cell:hover,
+  .topic-cell:focus-within {
+    background-color: var(--paper-sunk);
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--paper);
+  }
+
+  /* ---- Paper reader ---- */
+  .paper-body {
+    --shiki-foreground: var(--ink);
+    --shiki-background: transparent;
+    --shiki-token-constant: var(--syntax-number);
+    --shiki-token-string: var(--syntax-string);
+    --shiki-token-string-expression: var(--syntax-string);
+    --shiki-token-comment: var(--syntax-comment);
+    --shiki-token-keyword: var(--syntax-keyword);
+    --shiki-token-parameter: var(--ink);
+    --shiki-token-function: var(--syntax-function);
+    --shiki-token-punctuation: var(--syntax-punctuation);
+    --shiki-token-link: var(--green-700);
+
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--ink);
+    overflow-wrap: break-word;
+  }
+
+  .paper-body > * + * {
+    margin-top: 1.25em;
+  }
+
+  .paper-body :is(h2, h3, h4) {
+    scroll-margin-top: 7rem;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .paper-body h2 {
+    margin-top: 2.25em;
+    font-size: var(--text-h2);
+    letter-spacing: -0.01em;
+  }
+
+  .paper-body > h2:first-child {
+    margin-top: 0;
+  }
+
+  .paper-body h3 {
+    margin-top: 1.9em;
+    font-size: var(--text-h4);
+    font-weight: 600;
+  }
+
+  .paper-body :is(h2, h3, h4) + * {
+    margin-top: 0.75em;
+  }
+
+  .heading-anchor {
+    margin-left: 0.4em;
+    font-weight: 400;
+    color: var(--ink-muted);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  :is(h2, h3, h4):hover > .heading-anchor {
+    opacity: 1;
+  }
+
+  .paper-body #abstract + p {
+    font-size: 1.25rem;
+    line-height: 1.62;
+  }
+
+  .paper-body #abstract + p::first-letter {
+    float: left;
+    margin: 0.06em 0.09em 0 0;
+    font-size: 3.35em;
+    line-height: 0.8;
+    color: var(--green-700);
+  }
+
+  .paper-body :is(ul, ol) {
+    padding-left: 1.4em;
+  }
+
+  .paper-body ul {
+    list-style: disc;
+  }
+
+  .paper-body ol {
+    list-style: decimal;
+  }
+
+  .paper-body li + li {
+    margin-top: 0.5em;
+  }
+
+  .paper-body li::marker {
+    color: var(--ink-muted);
+  }
+
+  .paper-body #references + ol {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .paper-body .katex {
+    font-size: 1.06em;
+  }
+
+  .paper-body .katex-display {
+    margin-block: 0;
+    padding-block: 0.35em;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .paper-body pre {
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background-color: var(--paper-sunk);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+
+  .paper-body code {
+    font-family: var(--font-mono);
+  }
+
+  .paper-body :not(pre) > code {
+    padding: 0.1em 0.3em;
+    border-radius: 2px;
+    background-color: var(--paper-sunk);
+    font-size: 0.85em;
+  }
+
+  .paper-table {
+    overflow-x: auto;
+    border-block: 1px solid var(--ink);
+  }
+
+  .paper-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .paper-table :is(th, td) {
+    padding: 0.7rem 1.25rem 0.7rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .paper-table th {
+    border-bottom: 1px solid var(--rule-strong);
+    font-weight: 600;
+  }
+
+  .paper-table tr + tr td {
+    border-top: 1px solid var(--rule);
+  }
+
+  .paper-figure,
+  .paper-figure img {
+    display: block;
+    max-width: 100%;
+  }
+
+  .paper-figure img {
+    height: auto;
+  }
+
+  .paper-figure-missing {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 8;
+    padding: 1.5rem;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 4px;
+    background-color: var(--paper-sunk);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    text-align: center;
+    color: var(--ink-muted);
+  }
+
+  .paper-body p:has(> .paper-figure) + p {
+    margin-top: 0.75em;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+
   /* Underlines that draw from the left. `-drawn` is always present and
      redraws on hover. */
   .link-rule {
@@ -356,6 +566,10 @@
   .paper-row:hover::before,
   .paper-row:focus-within::before {
     opacity: 1;
+  }
+
+  .meta-line > .tabular-nums {
+    white-space: nowrap;
   }
 
   /* Byline separators are drawn, not written, so the copy stays untouched. */
