@@ -12,9 +12,7 @@ export default function NotFound() {
   return (
     <Container width="site" className="py-24 sm:py-36">
       <div className="mx-auto max-w-[68ch]">
-        <p className="font-mono text-small text-terracotta-700 tabular-nums">
-          404
-        </p>
+        <p className="font-mono text-small text-ink-muted tabular-nums">404</p>
         <h1 className="mt-3 font-serif text-h1 text-ink">
           This page has been withdrawn.
         </h1>

@@ -9,12 +9,6 @@ export const metadata: Metadata = {
   description: "The subjects PaperStack covers.",
 };
 
-const accentDot: Record<string, string> = {
-  green: "bg-green-700",
-  terracotta: "bg-terracotta-600",
-  gold: "bg-gold-500",
-};
-
 // Stub — full topic pages arrive in a later step.
 export default async function TopicsPage() {
   const topics = await getAllTopics();
@@ -32,10 +26,6 @@ export default async function TopicsPage() {
               className="group block no-underline"
             >
               <h2 className="flex items-center gap-3 font-serif text-h3 text-ink transition-colors group-hover:text-green-900">
-                <span
-                  aria-hidden="true"
-                  className={`size-2 rounded-full ${accentDot[topic.accent] ?? "bg-green-700"}`}
-                />
                 {topic.name}
               </h2>
               <p className="mt-2 max-w-prose text-body text-ink-soft">

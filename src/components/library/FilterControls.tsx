@@ -104,14 +104,14 @@ export function FilterControls({
             value={queryInput}
             onChange={(event) => onQueryInput(event.target.value)}
             placeholder="Title, abstract, keywords…"
-            className="h-10 w-full rounded-sm border border-rule-strong bg-paper-raised pr-3 pl-9 text-body text-ink transition-colors placeholder:text-ink-muted hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+            className="h-11 w-full border-b border-rule-strong bg-transparent pr-3 pl-9 text-body text-ink transition-colors placeholder:text-ink-muted hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
           />
         </div>
       </div>
 
       <fieldset>
         <legend className="text-label text-ink-muted uppercase">Topic</legend>
-        <div className="mt-3 flex flex-col gap-2.5">
+        <div className="mt-1.5 flex flex-col">
           {topics.map((topic) => (
             <Checkbox
               key={topic.slug}
@@ -125,7 +125,7 @@ export function FilterControls({
 
       <fieldset>
         <legend className="text-label text-ink-muted uppercase">Year</legend>
-        <div className="mt-3 flex flex-col gap-2.5">
+        <div className="mt-1.5 flex flex-col">
           {years.map((year) => (
             <Checkbox
               key={year}
@@ -139,7 +139,7 @@ export function FilterControls({
 
       <fieldset>
         <legend className="text-label text-ink-muted uppercase">Author</legend>
-        <div className="mt-3 flex flex-col gap-2.5">
+        <div className="mt-1.5 flex flex-col">
           {authors.map((author) => (
             <Checkbox
               key={author.slug}
@@ -153,7 +153,7 @@ export function FilterControls({
 
       <fieldset>
         <legend className="text-label text-ink-muted uppercase">Type</legend>
-        <div className="mt-3 flex flex-col gap-2.5">
+        <div className="mt-1.5 flex flex-col">
           {PAPER_TYPE_OPTIONS.map((option) => (
             <Checkbox
               key={option.value}
@@ -180,7 +180,7 @@ export function FilterControls({
             className="h-9 w-full rounded-sm border border-rule-strong bg-paper-raised px-3 text-small text-ink transition-colors placeholder:text-ink-muted hover:border-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
           />
         </div>
-        <div className="mt-3 flex max-h-48 flex-col gap-2.5 overflow-y-auto pr-1">
+        <div className="-mx-2 mt-2 flex max-h-48 flex-col overflow-y-auto px-2">
           {visibleKeywords.map((option) => (
             <Checkbox
               key={option.keyword}
@@ -215,7 +215,7 @@ export function FilterControls({
           <button
             type="button"
             onClick={onClearAll}
-            className="text-small font-medium text-terracotta-700 underline decoration-terracotta-600 decoration-1 underline-offset-4 transition-colors hover:text-terracotta-600 hover:decoration-2"
+            className="text-small font-medium text-green-700 underline decoration-green-700/45 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2"
           >
             Clear all filters
           </button>
@@ -238,7 +238,7 @@ export function FilterChip({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xs border border-rule-strong bg-paper-raised py-1 pr-1.5 pl-2.5 text-small text-ink-soft",
+        "inline-flex items-center gap-1.5 rounded-xs border border-green-700/40 bg-green-50 py-1 pr-1 pl-2.5 text-small font-medium text-green-900",
         className,
       )}
     >
@@ -247,7 +247,7 @@ export function FilterChip({
         type="button"
         onClick={onRemove}
         aria-label={`Remove filter: ${label}`}
-        className="inline-flex size-5 items-center justify-center rounded-xs text-ink-muted transition-colors hover:bg-paper-sunk hover:text-terracotta-700"
+        className="inline-flex size-6 items-center justify-center rounded-xs text-green-700 transition-colors hover:bg-green-100 hover:text-green-900"
       >
         <span aria-hidden="true" className="text-small leading-none">
           ×

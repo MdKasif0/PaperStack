@@ -57,8 +57,8 @@ export function NavLinks({
                     : cn(
                         "text-small",
                         active
-                          ? "font-medium text-green-900 underline decoration-terracotta-600 decoration-[1.5px] underline-offset-[6px]"
-                          : "text-ink-soft hover:text-green-900",
+                          ? "font-medium text-green-900 underline decoration-green-700/45 decoration-[1.5px] underline-offset-[6px]"
+                          : "text-ink-soft underline decoration-transparent underline-offset-[6px] hover:text-green-900 hover:decoration-green-700 hover:decoration-1",
                       ),
                 )}
               >

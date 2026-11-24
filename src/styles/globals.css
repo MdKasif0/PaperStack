@@ -12,30 +12,30 @@
   /* Paper surfaces */
   --paper: #f6f1e7;
   --paper-raised: #fbf8f1;
-  --paper-sunk: #ede5d5;
+  --paper-sunk: #efead8;
 
-  /* Warm ink text colours — every neutral carries an olive cast, never blue */
-  --ink: #1e2620;
-  --ink-soft: #4a5249;
-  --ink-muted: #63665a; /* darkened from the proposed #77796b to hold AA on paper-sunk */
+  /* Warm ink text colours — brown-black neutrals, never blue */
+  --ink: #1c1917;
+  --ink-soft: #4a4540;
+  --ink-muted: #6b6560; /* 5.1:1 on paper, 4.8:1 on paper-sunk */
 
   /* Hairline rules */
-  --rule: #d9cfbc;
-  --rule-strong: #bfb29a;
+  --rule: #d9d2c0;
+  --rule-strong: #857b65; /* control borders: 3:1 or better on every surface */
 
-  /* Ink green — primary accent */
-  --green-900: #14352a;
-  --green-700: #1f4d3a;
+  /* Ink green — the only action colour; 900 is its hover state */
+  --green-900: #1e4535;
+  --green-700: #2c5f4a;
   --green-600: #2b6350;
   --green-100: #dde8df;
   --green-50: #edf3ee;
 
-  /* Terracotta — secondary accent */
+  /* Terracotta — errors and status only, never actions */
   --terracotta-700: #8f4a31; /* added: AA-safe terracotta text on every paper surface */
   --terracotta-600: #a85d3f; /* decorative use and large text only (4.3:1 on paper) */
   --terracotta-100: #f1ddd2;
 
-  /* Soft gold — tertiary accent; decorative tones, never body text */
+  /* Soft gold — decorative tones only */
   --gold-500: #be9b4e;
   --gold-100: #f2e7c9;
 
@@ -99,8 +99,16 @@
   --text-body: 1rem;
   --text-body--line-height: 1.7;
 
+  /* Serif abstracts in listings */
+  --text-abstract: 1.0625rem;
+  --text-abstract--line-height: 1.6;
+
   --text-small: 0.875rem;
   --text-small--line-height: 1.6;
+
+  /* Bylines, dates, fields, identifiers */
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.55;
 
   --text-label: 0.71875rem; /* 11.5px — editorial small caps */
   --text-label--line-height: 1.4;
@@ -131,9 +139,9 @@
     color: var(--ink);
   }
 
-  /* Warm selection: gold wash, ink text */
+  /* Selection: green wash, ink text */
   ::selection {
-    background-color: var(--gold-100);
+    background-color: var(--green-100);
     color: var(--ink);
   }
 
@@ -142,12 +150,16 @@
     outline-offset: 2px;
   }
 
-  /* Editorial links: ink green with a thin terracotta underline that
+  /* Editorial links: ink green with a thin green underline that
      thickens on hover. Utilities (e.g. `no-underline`) win over this. */
   a {
     color: var(--green-700);
     text-decoration-line: underline;
-    text-decoration-color: var(--terracotta-600);
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--green-700) 45%,
+      transparent
+    );
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     text-decoration-skip-ink: auto;
@@ -159,24 +171,6 @@
   a:hover {
     color: var(--green-900);
     text-decoration-thickness: 2px;
-  }
-
-  /* Subtle paper grain, CSS-only: 2.8% opacity, never interactive. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 80;
-    pointer-events: none;
-    opacity: 0.028;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  @media print {
-    body::after {
-      display: none;
-    }
   }
 }
 
@@ -202,52 +196,55 @@
     background-repeat: no-repeat;
   }
 
+  .checkbox-box:hover:not(:disabled) {
+    border-color: var(--green-700);
+  }
+
   .checkbox-box:disabled {
     cursor: not-allowed;
     opacity: 0.45;
   }
 
-  /* One-time fade-up on first view, driven by IntersectionObserver in
-     components/site/Reveal.tsx. The hidden state is armed by the scripting
-     media query (no flash, no-JS safe); Reveal also adds .reveal-armed from
-     JS as a fallback for engines without that query. Reduced motion disables
-     the movement entirely. */
-  @media (scripting: enabled) {
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-
-    .reveal.is-in {
-      opacity: 1;
-      transform: translateY(0);
-      transition:
-        opacity 350ms ease,
-        transform 350ms ease;
-    }
+  /* Listing rows: a surface tint and a thin green rule on hover or focus.
+     No lift, no shadow. The tint bleeds into the page gutter. */
+  .paper-row {
+    position: relative;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    transition: background-color 150ms ease-out;
   }
 
-  .reveal-armed {
+  .paper-row::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 2px;
+    background-color: var(--green-700);
     opacity: 0;
-    transform: translateY(14px);
-    transition: none;
+    transition: opacity 150ms ease-out;
   }
 
-  .reveal-armed.is-in {
+  .paper-row:hover,
+  .paper-row:focus-within {
+    background-color: var(--paper-sunk);
+  }
+
+  .paper-row:hover::before,
+  .paper-row:focus-within::before {
     opacity: 1;
-    transform: translateY(0);
-    transition:
-      opacity 350ms ease,
-      transform 350ms ease;
+  }
+
+  /* Byline separators are drawn, not written, so the copy stays untouched. */
+  .meta-line > * + *::before {
+    content: "·" / "";
+    margin-inline: 0.5em;
+    color: var(--ink-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal,
-    .reveal.is-in,
-    .reveal-armed,
-    .reveal-armed.is-in {
-      opacity: 1;
-      transform: none;
+    .paper-row,
+    .paper-row::before {
       transition: none;
     }
   }

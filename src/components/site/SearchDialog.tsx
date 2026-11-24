@@ -261,12 +261,16 @@ export function SearchDialog({ authors, topics }: SearchDialogProps) {
           if (event.target === event.currentTarget) close();
         }}
         className={cn(
-          "fixed inset-0 z-50 overflow-y-auto bg-paper/90 transition-[opacity,visibility] duration-150 motion-reduce:transition-none",
-          open ? "visible opacity-100" : "invisible opacity-0",
+          "fixed inset-0 z-50 overflow-y-auto bg-paper/90 duration-150 motion-reduce:transition-none",
+          // Visibility must not transition on open: a panel that still
+          // computes as hidden cannot receive focus.
+          open
+            ? "visible opacity-100 transition-opacity"
+            : "invisible opacity-0 transition-[opacity,visibility]",
         )}
       >
         <div className="mx-auto mt-[12vh] w-[min(560px,calc(100vw-2.5rem))] rounded-sm border border-rule-strong bg-paper-raised">
-          <div className="flex items-center gap-3 border-b border-rule px-4">
+          <div className="flex items-center gap-3 border-b border-rule-strong px-4 transition-colors focus-within:border-green-700">
             <Search
               aria-hidden="true"
               className="size-4 shrink-0 text-ink-muted"
@@ -285,7 +289,7 @@ export function SearchDialog({ authors, topics }: SearchDialogProps) {
               onChange={(event) => setQueryInput(event.target.value)}
               onKeyDown={onInputKeyDown}
               placeholder="Search papers, authors, topics…"
-              className="h-12 w-full bg-transparent text-body text-ink outline-none placeholder:text-ink-muted"
+              className="h-14 w-full bg-transparent text-[1.0625rem] font-medium text-ink outline-none placeholder:text-ink-muted"
             />
             <button
               type="button"
@@ -342,7 +346,7 @@ export function SearchDialog({ authors, topics }: SearchDialogProps) {
                             clearRecents();
                             setRecents([]);
                           }}
-                          className="ml-3 tracking-normal text-ink-muted normal-case underline decoration-rule-strong underline-offset-2 transition-colors hover:text-terracotta-700"
+                          className="ml-3 tracking-normal text-ink-muted normal-case underline decoration-rule-strong underline-offset-2 transition-colors hover:text-green-900"
                         >
                           Clear
                         </button>
@@ -357,11 +361,17 @@ export function SearchDialog({ authors, topics }: SearchDialogProps) {
                     onMouseEnter={() => setActiveIndex(position)}
                     onClick={() => activate(item)}
                     className={cn(
-                      "flex cursor-pointer items-baseline justify-between gap-4 px-4 py-3",
-                      position === activeIndex && "bg-paper-sunk",
+                      "flex cursor-pointer items-baseline justify-between gap-4 border-l-2 border-transparent px-4 py-3",
+                      position === activeIndex &&
+                        "border-green-700 bg-paper-sunk",
                     )}
                   >
-                    <span className="min-w-0 truncate text-small text-ink">
+                    <span
+                      className={cn(
+                        "min-w-0 truncate text-small text-ink",
+                        item.kind === "paper" && "font-serif text-body",
+                      )}
+                    >
                       {item.kind === "recent" && (
                         <Clock
                           aria-hidden="true"

@@ -369,7 +369,7 @@ export function LibraryClient({
             <button
               type="button"
               onClick={clearAll}
-              className="text-small text-ink-muted underline decoration-rule-strong decoration-1 underline-offset-4 transition-colors hover:text-terracotta-700 hover:decoration-terracotta-600"
+              className="text-small text-ink-muted underline decoration-rule-strong decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-green-700"
             >
               Clear all
             </button>
@@ -416,7 +416,7 @@ export function LibraryClient({
                     <Link
                       key={topic.slug}
                       href={`/topics/${topic.slug}`}
-                      className="text-small font-medium text-green-700 underline decoration-terracotta-600 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2"
+                      className="text-small font-medium text-green-700 underline decoration-green-700/45 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2"
                     >
                       {topic.name}
                     </Link>
@@ -447,8 +447,12 @@ export function LibraryClient({
         aria-label="Filters"
         aria-hidden={!drawerOpen}
         className={cn(
-          "fixed inset-0 z-50 overflow-y-auto bg-paper transition-[opacity,visibility] duration-150 motion-reduce:transition-none lg:hidden",
-          drawerOpen ? "visible opacity-100" : "invisible opacity-0",
+          "fixed inset-0 z-50 overflow-y-auto bg-paper duration-150 motion-reduce:transition-none lg:hidden",
+          // Visibility must not transition on open: a panel that still
+          // computes as hidden cannot receive focus.
+          drawerOpen
+            ? "visible opacity-100 transition-opacity"
+            : "invisible opacity-0 transition-[opacity,visibility]",
         )}
       >
         <div className="mx-auto w-full max-w-md px-5 pt-6 pb-10">

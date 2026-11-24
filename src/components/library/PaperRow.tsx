@@ -4,7 +4,6 @@ import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 
 import { CiteDialog } from "./CiteDialog";
-import { Tag } from "@/components/ui";
 import type { SearchDocument } from "@/lib/content/search-index";
 import type { Topic } from "@/lib/content/schema";
 import { cn } from "@/lib/utils";
@@ -25,7 +24,7 @@ export function highlight(text: string, terms: string[]): ReactNode {
   const parts = text.split(regex);
   return parts.map((part, index) =>
     index % 2 === 1 ? (
-      <mark key={index} className="rounded-xs bg-gold-100 text-ink">
+      <mark key={index} className="rounded-xs bg-green-100 text-green-900">
         {part}
       </mark>
     ) : (
@@ -35,7 +34,7 @@ export function highlight(text: string, terms: string[]): ReactNode {
 }
 
 const actionLinkClasses =
-  "no-underline inline-flex items-center text-small font-medium text-green-700 underline decoration-terracotta-600 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2";
+  "inline-flex min-h-8 items-center text-small font-medium text-green-700 underline decoration-green-700/45 decoration-1 underline-offset-4 transition-colors hover:text-green-900 hover:decoration-2";
 
 export interface PaperRowProps {
   doc: SearchDocument;
@@ -50,40 +49,28 @@ export function PaperRow({ doc, topics, terms }: PaperRowProps) {
   const typeLabel = doc.type.replace(/-/g, " ");
 
   return (
-    <article className="grid gap-x-6 gap-y-2 border-b border-rule py-7 sm:grid-cols-[9rem_1fr]">
-      <div className="font-mono text-small text-ink-muted tabular-nums">
-        <p className="text-terracotta-700">{doc.paperStackId}</p>
-        <p className="mt-0.5">{doc.publishedAt}</p>
-        <p className="mt-0.5 capitalize">{typeLabel}</p>
-      </div>
+    <article className="paper-row group grid gap-x-8 gap-y-3 border-b border-rule py-8 sm:grid-cols-[1fr_8rem]">
       <div>
-        <h3 className="font-serif text-h3 text-ink">
+        <h3 className="font-serif text-h3 text-balance text-ink">
           <Link
             href={`/papers/${doc.slug}`}
-            className="no-underline transition-colors hover:text-green-900 hover:underline hover:decoration-terracotta-600 hover:decoration-1 hover:underline-offset-4"
+            className="text-ink no-underline transition-colors group-hover:text-green-700 hover:underline hover:decoration-green-700/45 hover:decoration-1 hover:underline-offset-4"
           >
             {highlight(doc.title, terms)}
           </Link>
         </h3>
-        <p className="mt-1.5 text-small text-ink-muted">
-          {doc.authors.join(", ")}
+        <p className="meta-line mt-2 text-meta text-ink-muted">
+          <span>{doc.authors.join(", ")}</span>
+          <span className="tabular-nums">{doc.publishedAt}</span>
+          {doc.topics.map((slug) => {
+            const topic = topics.get(slug);
+            return topic ? <span key={slug}>{topic.name}</span> : null;
+          })}
         </p>
-        {doc.topics.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {doc.topics.map((slug) => {
-              const topic = topics.get(slug);
-              return topic ? (
-                <Tag key={slug} tone={topic.accent}>
-                  {topic.name}
-                </Tag>
-              ) : null;
-            })}
-          </div>
-        )}
         <p
           id={abstractId}
           className={cn(
-            "mt-3 max-w-prose text-small leading-relaxed text-ink-soft",
+            "mt-4 max-w-[66ch] font-serif text-abstract text-ink-soft",
             !expanded && "line-clamp-3",
           )}
         >
@@ -99,7 +86,10 @@ export function PaperRow({ doc, topics, terms }: PaperRowProps) {
           {expanded ? "Hide abstract" : "Show abstract"}
         </button>
         <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
-          <Link href={`/papers/${doc.slug}`} className={actionLinkClasses}>
+          <Link
+            href={`/papers/${doc.slug}`}
+            className={cn(actionLinkClasses, "font-semibold")}
+          >
             Read
           </Link>
           {doc.pdf && (
@@ -115,6 +105,10 @@ export function PaperRow({ doc, topics, terms }: PaperRowProps) {
             Cite
           </button>
         </div>
+      </div>
+      <div className="font-mono text-meta text-ink-muted tabular-nums sm:pt-1.5 sm:text-right">
+        <p>{doc.paperStackId}</p>
+        <p className="mt-0.5 capitalize">{typeLabel}</p>
       </div>
       <CiteDialog
         doc={doc}

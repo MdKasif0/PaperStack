@@ -40,7 +40,7 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       swatches: [
         { name: "paper", hex: "#F6F1E7", className: "bg-paper" },
         { name: "paper-raised", hex: "#FBF8F1", className: "bg-paper-raised" },
-        { name: "paper-sunk", hex: "#EDE5D5", className: "bg-paper-sunk" },
+        { name: "paper-sunk", hex: "#EFEAD8", className: "bg-paper-sunk" },
       ],
     },
     {
@@ -48,11 +48,11 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       blurb:
         "Every neutral carries an olive cast — there are no blue-tinted greys in the system.",
       swatches: [
-        { name: "ink", hex: "#1E2620", className: "bg-ink" },
-        { name: "ink-soft", hex: "#4A5249", className: "bg-ink-soft" },
+        { name: "ink", hex: "#1C1917", className: "bg-ink" },
+        { name: "ink-soft", hex: "#4A4540", className: "bg-ink-soft" },
         {
           name: "ink-muted",
-          hex: "#63665A",
+          hex: "#6B6560",
           className: "bg-ink-muted",
           note: "darkened from the proposed #77796B to hold AA on paper-sunk",
         },
@@ -62,16 +62,16 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       title: "Hairline rules",
       blurb: "Structure comes from 1px rules, never from shadows.",
       swatches: [
-        { name: "rule", hex: "#D9CFBC", className: "bg-rule" },
-        { name: "rule-strong", hex: "#BFB29A", className: "bg-rule-strong" },
+        { name: "rule", hex: "#D9D2C0", className: "bg-rule" },
+        { name: "rule-strong", hex: "#857B65", className: "bg-rule-strong" },
       ],
     },
     {
       title: "Ink green — primary accent",
       blurb: "Links, focus rings, primary actions, and quiet emphasis.",
       swatches: [
-        { name: "green-900", hex: "#14352A", className: "bg-green-900" },
-        { name: "green-700", hex: "#1F4D3A", className: "bg-green-700" },
+        { name: "green-900", hex: "#1E4535", className: "bg-green-900" },
+        { name: "green-700", hex: "#2C5F4A", className: "bg-green-700" },
         { name: "green-600", hex: "#2B6350", className: "bg-green-600" },
         { name: "green-100", hex: "#DDE8DF", className: "bg-green-100" },
         { name: "green-50", hex: "#EDF3EE", className: "bg-green-50" },

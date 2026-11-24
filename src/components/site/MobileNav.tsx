@@ -39,8 +39,12 @@ export function MobileNav() {
         aria-label="Site menu"
         aria-hidden={!open}
         className={cn(
-          "fixed inset-0 z-50 flex flex-col bg-paper transition-[opacity,visibility] duration-150 motion-reduce:transition-none",
-          open ? "visible opacity-100" : "invisible opacity-0",
+          "fixed inset-0 z-50 flex flex-col bg-paper duration-150 motion-reduce:transition-none",
+          // Visibility must not transition on open: a panel that still
+          // computes as hidden cannot receive focus.
+          open
+            ? "visible opacity-100 transition-opacity"
+            : "invisible opacity-0 transition-[opacity,visibility]",
         )}
       >
         <div className="flex h-16 items-center justify-between border-b border-rule px-5">

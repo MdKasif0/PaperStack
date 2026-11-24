@@ -55,8 +55,12 @@ export function CiteDialog({ doc, open, onClose }: CiteDialogProps) {
         if (event.target === event.currentTarget) onClose();
       }}
       className={cn(
-        "fixed inset-0 z-50 overflow-y-auto bg-paper/90 transition-[opacity,visibility] duration-150 motion-reduce:transition-none",
-        open ? "visible opacity-100" : "invisible opacity-0",
+        "fixed inset-0 z-50 overflow-y-auto bg-paper/90 duration-150 motion-reduce:transition-none",
+        // Visibility must not transition on open: a panel that still
+        // computes as hidden cannot receive focus.
+        open
+          ? "visible opacity-100 transition-opacity"
+          : "invisible opacity-0 transition-[opacity,visibility]",
       )}
     >
       <div className="mx-auto mt-[10vh] w-[min(640px,calc(100vw-2.5rem))] rounded-sm border border-rule-strong bg-paper-raised">

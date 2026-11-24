@@ -10,13 +10,13 @@ type ButtonVariant = "primary" | "secondary" | "text";
 type ButtonSize = "sm" | "md";
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm font-medium transition-colors duration-150 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:pointer-events-none disabled:opacity-50";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-green-700 text-paper hover:bg-green-900",
+  primary: "bg-green-700 text-paper hover:bg-green-900 active:bg-ink",
   secondary:
-    "border border-rule-strong bg-paper-raised text-ink hover:border-green-700 hover:bg-green-50 hover:text-green-900",
-  text: "text-green-700 underline decoration-terracotta-600 decoration-1 underline-offset-[3px] hover:text-green-900 hover:decoration-2",
+    "border border-rule-strong bg-paper-raised text-ink hover:border-green-700 hover:bg-green-50 hover:text-green-900 active:bg-green-100",
+  text: "text-green-700 underline decoration-green-700/45 decoration-1 underline-offset-[3px] hover:text-green-900 hover:decoration-2",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -43,7 +43,7 @@ interface ButtonSharedProps {
   children: ReactNode;
 }
 
-function buttonClasses(
+export function buttonClasses(
   variant: ButtonVariant,
   size: ButtonSize,
   className?: string,

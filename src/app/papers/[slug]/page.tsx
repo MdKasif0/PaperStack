@@ -30,16 +30,20 @@ export default async function PaperPage({ params }: PaperPageProps) {
   return (
     <Container width="site" className="py-16 sm:py-24">
       <div className="mx-auto max-w-[68ch]">
-        <p className="font-mono text-small text-terracotta-700 tabular-nums">
+        <p className="font-mono text-meta text-ink-muted tabular-nums">
           {paper.paperId}
         </p>
-        <h1 className="mt-2 font-serif text-h1 text-ink">{paper.title}</h1>
+        <h1 className="mt-3 font-serif text-h1 text-balance text-ink">
+          {paper.title}
+        </h1>
         <p className="mt-4 text-small text-ink-muted">
           {paper.type} · {paper.publishedAt.toISOString().slice(0, 10)} ·{" "}
           {paper.readingTimeMinutes} min read
         </p>
         <Rule className="my-8" />
-        <p className="text-body-lg text-ink-soft">{paper.abstract}</p>
+        <p className="font-serif text-[1.25rem] leading-[1.65] text-ink">
+          {paper.abstract}
+        </p>
         <p className="mt-8 text-small text-ink-muted">
           The full paper reader — MDX body, math, figures, and citations —
           arrives in a later step.

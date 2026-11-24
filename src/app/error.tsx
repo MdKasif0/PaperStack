@@ -17,7 +17,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   return (
     <Container width="site" className="py-24 sm:py-36">
       <div className="mx-auto max-w-[68ch]">
-        <p className="font-mono text-small text-terracotta-700 tabular-nums">
+        <p className="font-mono text-small text-ink-muted tabular-nums">
           Press error
         </p>
         <h1 className="mt-3 font-serif text-h1 text-ink">
