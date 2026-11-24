@@ -33,7 +33,7 @@ export function NavLinks({
     <nav aria-label={ariaLabel} className={className}>
       <ul
         className={cn(
-          large ? "flex flex-col items-start gap-6" : "flex items-center gap-7",
+          large ? "flex flex-col items-start gap-6" : "flex items-center gap-8",
           "m-0 list-none p-0",
         )}
       >
@@ -55,14 +55,25 @@ export function NavLinks({
                           : "text-ink hover:text-green-900",
                       )
                     : cn(
-                        "text-small",
+                        "inline-flex py-2 text-[0.9375rem]",
                         active
-                          ? "font-medium text-green-900 underline decoration-green-700/45 decoration-[1.5px] underline-offset-[6px]"
-                          : "text-ink-soft underline decoration-transparent underline-offset-[6px] hover:text-green-900 hover:decoration-green-700 hover:decoration-1",
+                          ? "font-medium text-terracotta-700 hover:text-terracotta-700"
+                          : "text-ink hover:text-green-900",
                       ),
                 )}
               >
-                {item.label}
+                {large ? (
+                  item.label
+                ) : (
+                  <span
+                    className={cn(
+                      "link-rule py-1",
+                      active && "link-rule-current",
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                )}
               </Link>
             </li>
           );

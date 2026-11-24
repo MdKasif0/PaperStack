@@ -16,12 +16,12 @@ export async function Header() {
 
   return (
     <>
-      <div className="border-b border-rule bg-paper">
-        <div className="mx-auto flex h-9 w-full max-w-site items-center justify-between gap-4 px-5 sm:px-8">
-          <p className="truncate text-label text-ink-muted uppercase">
+      <div className="mx-auto w-full max-w-site px-5 sm:px-8">
+        <div className="flex h-10 items-center justify-between gap-4 border-b border-rule">
+          <p className="truncate text-label text-ink-soft uppercase">
             An open journal of independent research
           </p>
-          <p className="shrink-0 font-mono text-label text-ink-muted tabular-nums">
+          <p className="shrink-0 font-mono text-label text-ink-soft tabular-nums">
             Vol. {volume} · {year}
           </p>
         </div>

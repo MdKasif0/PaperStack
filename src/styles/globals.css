@@ -10,30 +10,30 @@
 
 :root {
   /* Paper surfaces */
-  --paper: #f6f1e7;
-  --paper-raised: #fbf8f1;
-  --paper-sunk: #efead8;
+  --paper: #f5f2e9;
+  --paper-raised: #faf8f2;
+  --paper-sunk: #f0ede4;
 
-  /* Warm ink text colours — brown-black neutrals, never blue */
-  --ink: #1c1917;
-  --ink-soft: #4a4540;
-  --ink-muted: #6b6560; /* 5.1:1 on paper, 4.8:1 on paper-sunk */
+  /* Warm ink text colours — soft charcoal neutrals, never blue */
+  --ink: #202722;
+  --ink-soft: #4a4d47;
+  --ink-muted: #686760; /* #77766d darkened to hold AA: 5.1:1 on paper */
 
   /* Hairline rules */
-  --rule: #d9d2c0;
+  --rule: #dcd7ca;
   --rule-strong: #857b65; /* control borders: 3:1 or better on every surface */
 
   /* Ink green — the only action colour; 900 is its hover state */
-  --green-900: #1e4535;
-  --green-700: #2c5f4a;
+  --green-900: #183b2d;
+  --green-700: #234c3b;
   --green-600: #2b6350;
   --green-100: #dde8df;
   --green-50: #edf3ee;
 
-  /* Terracotta — errors and status only, never actions */
-  --terracotta-700: #8f4a31; /* added: AA-safe terracotta text on every paper surface */
-  --terracotta-600: #a85d3f; /* decorative use and large text only (4.3:1 on paper) */
-  --terracotta-100: #f1ddd2;
+  /* Terracotta — editorial details, the current page, and the PDF link */
+  --terracotta-700: #8c5440; /* AA-safe terracotta text on every paper surface */
+  --terracotta-600: #a66f5b; /* decorative strokes only (3.7:1 on paper) */
+  --terracotta-100: #f0e2d5;
 
   /* Soft gold — decorative tones only */
   --gold-500: #be9b4e;
@@ -120,7 +120,7 @@
   --radius-md: 4px;
 
   /* Layout */
-  --container-site: 73.75rem; /* 1180px */
+  --container-site: 77.5rem; /* 1240px */
 }
 
 @layer base {
@@ -137,6 +137,20 @@
   body {
     background-color: var(--paper);
     color: var(--ink);
+  }
+
+  /* Paper tooth, painted behind the content so it never touches type. The
+     sticky masthead carries it too, so no seam shows against the page. */
+  body,
+  .paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.22 0.1 0 0 0 -0.04'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media print {
+    body,
+    .paper-grain {
+      background-image: none;
+    }
   }
 
   /* Selection: green wash, ink text */
@@ -203,6 +217,115 @@
   .checkbox-box:disabled {
     cursor: not-allowed;
     opacity: 0.45;
+  }
+
+  .hero-headline {
+    font-size: clamp(2.5rem, 1.55rem + 4vw, 3.875rem);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  .featured-title {
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2.375rem);
+    line-height: 1.16;
+    letter-spacing: -0.014em;
+  }
+
+  .featured-panel {
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .featured-panel:hover {
+    border-color: var(--rule-strong);
+    background-color: var(--paper-raised);
+  }
+
+  /* Two columns: the size tracks the column so the set lines never wrap. */
+  @media (min-width: 64rem) {
+    .hero-headline {
+      font-size: clamp(3.4rem, 0.55rem + 4.6vw, 4.25rem);
+      text-wrap: wrap;
+    }
+
+    .featured-title {
+      font-size: clamp(1.75rem, 0.45rem + 2.2vw, 2.375rem);
+    }
+  }
+
+  /* Underlines that draw from the left. `-drawn` is always present and
+     redraws on hover. */
+  .link-rule {
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition: background-size 220ms ease-out;
+  }
+
+  a:hover > .link-rule,
+  a:focus-visible > .link-rule {
+    background-size: 100% 1px;
+  }
+
+  .link-rule-drawn {
+    background-image:
+      linear-gradient(currentcolor, currentcolor),
+      linear-gradient(var(--terracotta-600), var(--terracotta-600));
+    background-size:
+      0 2px,
+      100% 1px;
+  }
+
+  a:hover > .link-rule-drawn,
+  a:focus-visible > .link-rule-drawn {
+    background-size:
+      100% 2px,
+      100% 1px;
+  }
+
+  .link-rule-current,
+  a:hover > .link-rule-current {
+    background-size: 100% 2px;
+  }
+
+  .arrow-nudge {
+    transition: transform 180ms ease-out;
+  }
+
+  .group\/cta:hover .arrow-nudge {
+    transform: translate(2px, -2px);
+  }
+
+  .hero-rise {
+    animation: hero-rise 480ms cubic-bezier(0.2, 0.7, 0.2, 1)
+      var(--rise-delay, 0ms) both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rise {
+      animation: none;
+    }
+
+    .link-rule,
+    .arrow-nudge,
+    .featured-panel {
+      transition: none;
+    }
+
+    .group\/cta:hover .arrow-nudge {
+      transform: none;
+    }
   }
 
   /* Listing rows: a surface tint and a thin green rule on hover or focus.

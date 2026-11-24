@@ -240,7 +240,7 @@ export function SearchDialog({ authors, topics }: SearchDialogProps) {
         aria-keyshortcuts="Meta+K Control+K"
         onClick={openDialog}
         className={cn(
-          "inline-flex h-8 items-center gap-2 rounded-sm border border-rule-strong bg-paper-raised px-2.5 text-small text-ink-muted",
+          "inline-flex h-10 min-w-10 items-center justify-center gap-2.5 rounded-sm border border-rule-strong px-3 text-small text-ink-soft",
           "transition-colors hover:border-green-700 hover:text-green-900",
         )}
       >

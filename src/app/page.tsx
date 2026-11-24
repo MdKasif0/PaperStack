@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Rss } from "lucide-react";
+import { Rss } from "lucide-react";
 
-import {
-  Button,
-  buttonClasses,
-  Container,
-  Input,
-  SectionLabel,
-} from "@/components/ui";
+import { Hero } from "@/components/home/Hero";
+import { Button, Container, Input, SectionLabel } from "@/components/ui";
 import { getAllAuthors, getAllPapers, getAllTopics } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -53,111 +48,16 @@ export default async function HomePage() {
   ];
 
   return (
-    <Container width="site" className="pt-14 pb-10 sm:pt-20">
-      {/* ---------------------------------------------------------- */}
-      {/* Opening: editorial masthead with the featured paper panel   */}
-      <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-7">
-          <p className="text-label text-ink-muted uppercase">
-            Independent research, published in public
-          </p>
-          <h1 className="mt-6 max-w-[15em] font-serif text-display text-ink">
-            How machines learn, where systems break, and why the web behaves as
-            it does.
-          </h1>
-          <p className="mt-8 max-w-prose text-body-lg text-ink-soft">
-            PaperStack is an independent journal of small, careful research.
-            Every paper is written to be checked rather than skimmed — with its
-            data, its method, and its revision history published alongside.
-          </p>
-          <p className="mt-9">
-            <Link href="/papers" className={textLinkClasses}>
-              Browse the library
-              <ArrowUpRight aria-hidden="true" className="size-4" />
-            </Link>
-          </p>
-        </div>
-
-        <div className="lg:col-span-5">
-          {featured ? (
-            <aside
-              aria-labelledby="featured-heading"
-              className="border-t-2 border-ink pt-4"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <p
-                  id="featured-heading"
-                  className="text-label text-ink-muted uppercase"
-                >
-                  Currently featured
-                </p>
-                <p className="font-mono text-meta text-ink-muted tabular-nums">
-                  {featured.paperId}
-                </p>
-              </div>
-              <h2 className="mt-5 font-serif text-h2 text-balance text-ink">
-                <Link
-                  href={`/papers/${featured.slug}`}
-                  className="text-ink no-underline transition-colors hover:text-green-700"
-                >
-                  {featured.title}
-                </Link>
-              </h2>
-              <p className="meta-line mt-3 text-meta text-ink-muted">
-                <span>
-                  {featured.authors
-                    .map(
-                      (author) => authorNames.get(author.slug) ?? author.slug,
-                    )
-                    .join(", ")}
-                </span>
-                {featured.topics.map((slug) => {
-                  const topic = topicBySlug.get(slug);
-                  return topic ? <span key={slug}>{topic.name}</span> : null;
-                })}
-              </p>
-              <p className="mt-4 max-w-[66ch] font-serif text-abstract text-ink-soft">
-                {featured.abstract}
-              </p>
-              <div className="mt-6 flex items-center gap-6">
-                <Link
-                  href={`/papers/${featured.slug}`}
-                  className={buttonClasses(
-                    "primary",
-                    "md",
-                    "h-11 px-6 no-underline hover:text-paper",
-                  )}
-                >
-                  Read paper
-                </Link>
-                {featured.hasPdf && featured.pdf && (
-                  <a href={featured.pdf} className={textLinkClasses}>
-                    PDF
-                  </a>
-                )}
-              </div>
-            </aside>
-          ) : (
-            <aside
-              aria-labelledby="featured-heading"
-              className="border-t-2 border-ink pt-4"
-            >
-              <p
-                id="featured-heading"
-                className="text-label text-ink-muted uppercase"
-              >
-                Currently featured
-              </p>
-              <p className="mt-5 font-serif text-h3 text-ink-soft">
-                The first paper is in preparation.
-              </p>
-              <p className="mt-3 text-small text-ink-muted">
-                It will appear here the day it is set.
-              </p>
-            </aside>
-          )}
-        </div>
-      </div>
+    <Container width="site" className="pt-12 pb-10 sm:pt-16 lg:pt-20">
+      <Hero
+        paper={featured}
+        authorNames={(featured?.authors ?? []).map(
+          (author) => authorNames.get(author.slug) ?? author.slug,
+        )}
+        topicNames={(featured?.topics ?? []).flatMap(
+          (slug) => topicBySlug.get(slug)?.name ?? [],
+        )}
+      />
 
       {/* ---------------------------------------------------------- */}
       {/* 01 — Latest papers                                          */}

@@ -38,9 +38,9 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       blurb:
         "Warm paper grounds the page. Raised lifts cards; sunk insets code and metadata.",
       swatches: [
-        { name: "paper", hex: "#F6F1E7", className: "bg-paper" },
-        { name: "paper-raised", hex: "#FBF8F1", className: "bg-paper-raised" },
-        { name: "paper-sunk", hex: "#EFEAD8", className: "bg-paper-sunk" },
+        { name: "paper", hex: "#F5F2E9", className: "bg-paper" },
+        { name: "paper-raised", hex: "#FAF8F2", className: "bg-paper-raised" },
+        { name: "paper-sunk", hex: "#F0EDE4", className: "bg-paper-sunk" },
       ],
     },
     {
@@ -48,11 +48,11 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       blurb:
         "Every neutral carries an olive cast — there are no blue-tinted greys in the system.",
       swatches: [
-        { name: "ink", hex: "#1C1917", className: "bg-ink" },
-        { name: "ink-soft", hex: "#4A4540", className: "bg-ink-soft" },
+        { name: "ink", hex: "#202722", className: "bg-ink" },
+        { name: "ink-soft", hex: "#4A4D47", className: "bg-ink-soft" },
         {
           name: "ink-muted",
-          hex: "#6B6560",
+          hex: "#686760",
           className: "bg-ink-muted",
           note: "darkened from the proposed #77796B to hold AA on paper-sunk",
         },
@@ -62,7 +62,7 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       title: "Hairline rules",
       blurb: "Structure comes from 1px rules, never from shadows.",
       swatches: [
-        { name: "rule", hex: "#D9D2C0", className: "bg-rule" },
+        { name: "rule", hex: "#DCD7CA", className: "bg-rule" },
         { name: "rule-strong", hex: "#857B65", className: "bg-rule-strong" },
       ],
     },
@@ -70,8 +70,8 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       title: "Ink green — primary accent",
       blurb: "Links, focus rings, primary actions, and quiet emphasis.",
       swatches: [
-        { name: "green-900", hex: "#1E4535", className: "bg-green-900" },
-        { name: "green-700", hex: "#2C5F4A", className: "bg-green-700" },
+        { name: "green-900", hex: "#183B2D", className: "bg-green-900" },
+        { name: "green-700", hex: "#234C3B", className: "bg-green-700" },
         { name: "green-600", hex: "#2B6350", className: "bg-green-600" },
         { name: "green-100", hex: "#DDE8DF", className: "bg-green-100" },
         { name: "green-50", hex: "#EDF3EE", className: "bg-green-50" },
@@ -84,19 +84,19 @@ const swatchGroups: { title: string; blurb: string; swatches: SwatchSpec[] }[] =
       swatches: [
         {
           name: "terracotta-700",
-          hex: "#8F4A31",
+          hex: "#8C5440",
           className: "bg-terracotta-700",
           note: "added so terracotta text passes AA on every paper surface",
         },
         {
           name: "terracotta-600",
-          hex: "#A85D3F",
+          hex: "#A66F5B",
           className: "bg-terracotta-600",
           note: "decorative and large text only (4.3:1 on paper)",
         },
         {
           name: "terracotta-100",
-          hex: "#F1DDD2",
+          hex: "#F0E2D5",
           className: "bg-terracotta-100",
         },
       ],

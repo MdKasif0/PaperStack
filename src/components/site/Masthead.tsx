@@ -35,11 +35,11 @@ export function Masthead({
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 bg-paper transition-[border-color] duration-150 motion-reduce:transition-none",
+        "paper-grain sticky top-0 z-40 bg-paper transition-[border-color] duration-150 motion-reduce:transition-none",
         scrolled ? "border-b border-rule" : "border-b border-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-site items-center justify-between gap-6 px-5 sm:px-8">
+      <div className="mx-auto flex h-18 w-full max-w-site items-center justify-between gap-6 px-5 sm:px-8">
         <Wordmark />
         <div className="flex items-center gap-6">
           <NavLinks className="hidden md:block" />
